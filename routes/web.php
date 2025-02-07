@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -19,6 +20,8 @@ use Barryvdh\Elfinder\ElfinderController;
 Route::get('/', function () {
     return view('pages.dashboard');
 })->middleware('auth')->name('pages.dashboard');
+
+Route::get('/', [DashboardController::class, 'dashboard'])->name('pages.dashboard');
 
 //Permission
 Route::group(['middleware' => ['role:super-admin|director|deputy-director|officer|staff']], function () {

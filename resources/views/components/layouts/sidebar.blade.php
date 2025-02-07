@@ -5,7 +5,7 @@
             <div class="quixnav-scroll">
                 <ul class="metismenu" id="menu">
                     <li class="nav-label first text-white">Main Menu</li>
-                    <li><a class="has-arrow" href="/" aria-expanded="false"><i
+                    <li><a class="has-arrow" href="{{route('pages.dashboard')}}" aria-expanded="false"><i
                                 class="icon icon-single-04"></i><span class="nav-text">Dashboard</span></a>
                     </li>
                     <li class="nav-label text-white">Apps</li>
