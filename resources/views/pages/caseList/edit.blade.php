@@ -74,6 +74,12 @@
 
                                     <div class="col-6">
                                         <div class="form-group">
+                                            <label for="exampleFormControlSelect1">စာပေးပို့သည့်ဌာန</label>
+                                            <input type="text" class="form-control form-control-lg input-default "
+                                                placeholder="ဝန်ကြီးဌာန (သို့မဟုတ်) တပ်ဖွဲ့/ဦးစီးဌာန" name="fromDeptName"
+                                                value="{{ old('inLetterToDps', $caseList->fromDeptName) }}">
+                                        </div>
+                                        <div class="form-group">
                                             <label for="exampleFormControlSelect1">ဝင်စာတင်သည့်ရက်စွဲ</label>
                                             <input name="inLetterToDps"
                                                 class="datepicker-default form-control form-control-lg" id="datepicker"
@@ -307,6 +313,11 @@
                                                 value="{{ old('processToDps', $caseList->processToDps) }}">
                                         </div>
                                         <div class="form-group">
+                                            <label for="exampleFormControlSelect1">ဝင်စာတင်ပြရာတွင်ရေးသားသည့်မှတ်ချက်</label>
+                                            <textarea class="form-control" name="processCaseRemark" cols="30" rows="5" 
+                                            value="{{ old('processCaseRemark', $caseList->processCaseRemark) }}">{{ $caseList->processCaseRemark }}</textarea>
+                                        </div>
+                                        <div class="form-group">
                                             <label for="exampleFormControlSelect1">ဒုတိယအမြဲတမ်းအတွင်းဝန်
                                                 မှတ်ချက်</label>
                                             <textarea class="form-control" name="processCaseDpsRemark" cols="30" rows="5"
@@ -463,45 +474,33 @@
     window.processSelectedFiles = function(filePaths, inputId) {
         const targetInput = document.getElementById(inputId);
         if (targetInput) {
-            // Parse existing value as JSON if valid, or fall back to an empty array
-            let existingFiles = [];
-            try {
-                existingFiles = JSON.parse(targetInput.value);
-            } catch (e) {
-                existingFiles = targetInput.value.split(',').map((file) => file.trim());
-            }
+            const existingValue = targetInput.value;
+            const combinedFiles = [...new Set([...existingValue.split(',').map(f => f.trim()), ...filePaths])];
 
-            // Combine existing and new file paths, removing duplicates
-            const combinedFiles = [...new Set([...existingFiles, ...filePaths])];
+            // Convert the file paths to JSON string
+            const jsonValue = JSON.stringify(combinedFiles);
 
-            // Convert to JSON and set the value in the input field
-            targetInput.value = JSON.stringify(combinedFiles);
+            // Set the value to the input field
+            targetInput.value = jsonValue;
         } else {
             console.error(`No input field found with ID: ${inputId}`);
         }
     };
 
+
     window.addEventListener('focus', () => {
-        // Retrieve selected files from localStorage
         const selectedFiles = JSON.parse(localStorage.getItem('selectedFiles'));
         if (selectedFiles && selectedFiles.length > 0) {
             const inputId = 'inputId'; // Replace with your actual input ID
             const targetInput = document.getElementById(inputId);
 
             if (targetInput) {
-                // Parse existing value as JSON or fallback to empty array
-                let existingFiles = [];
-                try {
-                    existingFiles = JSON.parse(targetInput.value);
-                } catch (e) {
-                    existingFiles = targetInput.value.split(',').map((file) => file.trim());
-                }
-
-                // Merge existing files with newly selected files
-                const updatedFiles = [...new Set([...existingFiles, ...selectedFiles])];
-
-                // Update the input field as JSON
-                targetInput.value = JSON.stringify(updatedFiles);
+                // Combine existing values with newly selected files
+                const existingValue = targetInput.value;
+                const updatedValue = [...new Set([...
+                    selectedFiles
+                ])].join(', ');
+                targetInput.value = updatedValue;
             } else {
                 console.error(`No input field found with ID: ${inputId}`);
             }

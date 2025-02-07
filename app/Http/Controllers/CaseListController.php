@@ -32,6 +32,7 @@ class CaseListController extends Controller
 
     }
 
+
     public function create()
     {
         $departments = Department::all();
@@ -49,6 +50,7 @@ class CaseListController extends Controller
             'inLetterDate' => 'nullable|date',
             'inLetterNumber' => 'nullable|string',
             'inLetterContent' => 'nullable|string',
+            'fromDeptName' => 'nullable|string',
             'inLetterToDps' => 'nullable|date',
             'inLetterRemark' => 'nullable|string',
             'inLetterReturnDate' => 'nullable|date',
@@ -76,6 +78,7 @@ class CaseListController extends Controller
             'fromFSDLetterNumber' => 'nullable|string',
             'fromFSDLetterContent' => 'nullable|string',
             'processToDps' => 'nullable|date',
+            'processCaseRemark' => 'nullable|string',
             'processReturnDate' => 'nullable|date',
             'processCaseDpsRemark' => 'nullable|string',
             'processCasePsRemark' => 'nullable|string',
@@ -103,16 +106,30 @@ class CaseListController extends Controller
         }
 
         // Split the comma-separated file paths into an array
-        if ($request->has('relatedCaseFile') && is_string($validatedData['relatedCaseFile'])) {
-            // Convert comma-separated string into an array
-            $filePathsArray = explode(',', $validatedData['relatedCaseFile']);
+        // if ($request->has('relatedCaseFile') && is_string($validatedData['relatedCaseFile'])) {
+        //     // Convert comma-separated string into an array
+        //     $filePathsArray = explode(',', $validatedData['relatedCaseFile']);
 
+        //     // Trim whitespace around each file path (optional but recommended)
+        //     $filePathsArray = array_map('trim', $filePathsArray);
+
+        //     // Store as JSON array in the database
+        //     $validatedData['relatedCaseFile'] = json_encode($filePathsArray);
+        // }
+
+        if ($request->has('relatedCaseFile')) {
+            // Ensure relatedCaseFile is an array before encoding
+            $filePathsArray = is_array($request->relatedCaseFile) 
+                ? $request->relatedCaseFile 
+                : explode(',', $request->relatedCaseFile);
+        
             // Trim whitespace around each file path (optional but recommended)
             $filePathsArray = array_map('trim', $filePathsArray);
-
-            // Store as JSON array in the database
-            $validatedData['relatedCaseFile'] = json_encode($filePathsArray);
+        
+            // Store as JSON array in the database (only encode once)
+            $validatedData['relatedCaseFile'] = json_encode($filePathsArray, JSON_UNESCAPED_SLASHES);
         }
+
 
         // Create a new case list record
         $caseList = new CaseList([
@@ -122,6 +139,7 @@ class CaseListController extends Controller
             'inLetterDate' => $validatedData['inLetterDate'],
             'inLetterNumber' => $validatedData['inLetterNumber'],
             'inLetterContent' => $validatedData['inLetterContent'],
+            'fromDeptName' => $validatedData['fromDeptName'],
             'inLetterToDps' => $validatedData['inLetterToDps'],
             'inLetterRemark' => $validatedData['inLetterRemark'],
             'inLetterReturnDate' => $validatedData['inLetterReturnDate'],
@@ -150,6 +168,7 @@ class CaseListController extends Controller
             'fromFSDLetterNumber' => $validatedData['fromFSDLetterNumber'],
             'fromFSDLetterContent' => $validatedData['fromFSDLetterContent'],
             'processToDps' => $validatedData['processToDps'],
+            'processCaseRemark' => $validatedData['processCaseRemark'],
             'processReturnDate' => $validatedData['processReturnDate'],
             'processCaseDpsRemark' => $validatedData['processCaseDpsRemark'],
             'processCasePsRemark' => $validatedData['processCasePsRemark'],
@@ -173,7 +192,30 @@ class CaseListController extends Controller
 
     public function show($id)
     {
+        // Get the authenticated user
+        $user = Auth::user();
 
+        // Find the case list with the related caseFile
+        $caseList = CaseList::with('caseFile')->findOrFail($id);
+        $childDepartments = json_decode($caseList->toChildDeptName, true) ?? explode(',', $caseList->toChildDeptName);
+
+        // First, decode the outer JSON string
+        $files = json_decode($caseList->relatedCaseFile, true);
+
+        // If the result is still a JSON string, decode again
+        if (is_string($files)) {
+            $files = json_decode($files, true);
+        }
+
+        // Ensure we have a valid array
+        $relatedCaseFiles = is_array($files) ? $files : [];
+
+        // Check if the user is a super-admin or owns the case list
+        if ($user->hasRole('super-admin') || $caseList->user_id === $user->id) {
+            return view('pages.caseList.show', compact('caseList', 'childDepartments', 'relatedCaseFiles'));
+        } else {
+            return redirect()->route('caseList.index')->with('error', 'Unauthorized access.');
+        }
     }
 
     public function edit($id)
@@ -198,6 +240,7 @@ class CaseListController extends Controller
             'inLetterDate' => 'nullable|date',
             'inLetterNumber' => 'nullable|string',
             'inLetterContent' => 'nullable|string',
+            'fromDeptName' => 'nullable|string',
             'inLetterToDps' => 'nullable|date',
             'inLetterRemark' => 'nullable|string',
             'inLetterReturnDate' => 'nullable|date',
@@ -225,6 +268,7 @@ class CaseListController extends Controller
             'fromFSDLetterNumber' => 'nullable|string',
             'fromFSDLetterContent' => 'nullable|string',
             'processToDps' => 'nullable|date',
+            'processCaseRemark' => 'nullable|string',
             'processReturnDate' => 'nullable|date',
             'processCaseDpsRemark' => 'nullable|string',
             'processCasePsRemark' => 'nullable|string',
@@ -248,11 +292,30 @@ class CaseListController extends Controller
         }
 
         // Process 'relatedCaseFile'
-        if ($request->has('relatedCaseFile') && is_string($validatedData['relatedCaseFile'])) {
-            $filePathsArray = explode(',', $validatedData['relatedCaseFile']);
+        // if ($request->has('relatedCaseFile') && is_string($validatedData['relatedCaseFile'])) {
+        //     $filePathsArray = explode(',', $validatedData['relatedCaseFile']);
+        //     $filePathsArray = array_map('trim', $filePathsArray);
+        //     $validatedData['relatedCaseFile'] = json_encode($filePathsArray);
+        // }
+
+        // Process realtedCasefile
+        if ($request->has('relatedCaseFile')) {
+            // Ensure relatedCaseFile is an array before encoding
+            $filePathsArray = is_array($request->relatedCaseFile) 
+                ? $request->relatedCaseFile 
+                : explode(',', $request->relatedCaseFile);
+        
+            // Trim whitespace around each file path (optional but recommended)
             $filePathsArray = array_map('trim', $filePathsArray);
-            $validatedData['relatedCaseFile'] = json_encode($filePathsArray);
+        
+            // Remove empty values (in case of extra commas)
+            $filePathsArray = array_filter($filePathsArray);
+        
+            // Store as JSON array in the database (only encode once)
+            $validatedData['relatedCaseFile'] = json_encode(array_values($filePathsArray), JSON_UNESCAPED_SLASHES);
         }
+
+        
 
         // Update the existing case list record
         $caseList->update([
@@ -262,6 +325,7 @@ class CaseListController extends Controller
             'inLetterDate' => $validatedData['inLetterDate'],
             'inLetterNumber' => $validatedData['inLetterNumber'],
             'inLetterContent' => $validatedData['inLetterContent'],
+            'fromDeptName' => $validatedData['fromDeptName'],
             'inLetterToDps' => $validatedData['inLetterToDps'],
             'inLetterRemark' => $validatedData['inLetterRemark'],
             'inLetterReturnDate' => $validatedData['inLetterReturnDate'],
@@ -290,6 +354,7 @@ class CaseListController extends Controller
             'fromFSDLetterNumber' => $validatedData['fromFSDLetterNumber'],
             'fromFSDLetterContent' => $validatedData['fromFSDLetterContent'],
             'processToDps' => $validatedData['processToDps'],
+            'processCaseRemark' => $validatedData['processCaseRemark'],
             'processReturnDate' => $validatedData['processReturnDate'],
             'processCaseDpsRemark' => $validatedData['processCaseDpsRemark'],
             'processCasePsRemark' => $validatedData['processCasePsRemark'],

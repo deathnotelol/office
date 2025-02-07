@@ -101,6 +101,7 @@
                                             <th>ဝင်စာတင်သည့်မှတ်ချက်</th>
                                             <th>ဝင်စာတင်သည့်ရက်</th>
                                             <th>ဝင်စာပြန်ကျသည့်ရက်</th>
+                                            <th>အမှုတွဲပြီးပြတ်သည့်နေ့</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -126,9 +127,10 @@
                                                 <td class="text-justify">{{ $caseList->inLetterRemark }}</td>
                                                 <td>{{ $caseList->inLetterToDps }}</td>
                                                 <td>{{ $caseList->inLetterReturnDate }}</td>
+                                                <td>{{ $caseList->caseCompletedDate }}</td>
                                                 <td>
                                                     <div class="btn-group" role="group" aria-label="Action buttons">
-                                                        <a class="btn btn-success" style="margin-right: 8px;" href="{{ route('caseList.show', $caseList->id) }}">View</a>
+                                                        <a target="_blank" class="btn btn-success" style="margin-right: 8px;" href="{{ route('caseList.show', $caseList->id) }}">View</a>
                                                         <a class="btn btn-primary" style="margin-right: 8px;" href="{{ route('caseList.edit', $caseList->id) }}">Edit</a>
                                                         <form
                                                             onsubmit="return confirm('Are you sure you want to delete this case list?');"

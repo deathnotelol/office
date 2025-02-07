@@ -62,6 +62,12 @@
 
                                     <div class="col-6">
                                         <div class="form-group">
+                                            <label for="exampleFormControlSelect1">စာပေးပို့သည့်ဌာန</label>
+                                            <input type="text" class="form-control form-control-lg input-default "
+                                                placeholder="ဝန်ကြီးဌာန (သို့မဟုတ်) တပ်ဖွဲ့/ဦးစီးဌာန" name="fromDeptName">
+                                        </div>
+
+                                        <div class="form-group">
                                             <label for="exampleFormControlSelect1">ဝင်စာတင်သည့်ရက်စွဲ</label>
                                             <input name="inLetterToDps"
                                                 class="datepicker-default form-control form-control-lg" id="datepicker"
@@ -266,15 +272,18 @@
                                                 id="datepicker" placeholder="Choice Date">
                                         </div>
                                         <div class="form-group">
+                                            <label for="exampleFormControlSelect1">ဝင်စာတင်ပြရာတွင်ရေးသားသည့်မှတ်ချက်</label>
+                                            <textarea class="form-control" name="processCaseRemark" cols="30" rows="5"></textarea>
+                                        </div>
+                                        <div class="form-group">
                                             <label for="exampleFormControlSelect1">ဒုတိယအမြဲတမ်းအတွင်းဝန်
                                                 မှတ်ချက်</label>
                                             <textarea class="form-control" name="processCaseDpsRemark" cols="30" rows="5"></textarea>
                                         </div>
                                         <div class="form-group">
-                                            <label for="exampleFormControlSelect1">ဒုတိယဝန်ကြီး မှတ်ချက်</label>
-                                            <textarea class="form-control" name="processCaseDmRemark" cols="30" rows="5"></textarea>
+                                            <label for="exampleFormControlSelect1">အမြဲတမ်းအတွင်းဝန် မှတ်ချက်</label>
+                                            <textarea class="form-control" name="processCasePsRemark" cols="30" rows="5"></textarea>
                                         </div>
-
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group">
@@ -285,12 +294,12 @@
                                                 id="datepicker" placeholder="Choice Date">
                                         </div>
                                         <div class="form-group">
-                                            <label for="exampleFormControlSelect1">အမြဲတမ်းအတွင်းဝန် မှတ်ချက်</label>
-                                            <textarea class="form-control" name="processCasePsRemark" cols="30" rows="5"></textarea>
+                                            <label for="exampleFormControlSelect1">ဒုတိယဝန်ကြီး မှတ်ချက်</label>
+                                            <textarea class="form-control" name="processCaseDmRemark" cols="30" rows="5"></textarea>
                                         </div>
                                         <div class="form-group">
                                             <label for="exampleFormControlSelect1">ပြည်ထောင်စုဝန်ကြီး မှတ်ချက်</label>
-                                            <textarea class="form-control" name="processCaseUmRemark" cols="30" rows="5"></textarea>
+                                            <textarea class="form-control pb-3" name="processCaseUmRemark" cols="30" rows="12"></textarea>
                                         </div>
                                     </div>
                                 </div>

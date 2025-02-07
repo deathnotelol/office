@@ -36,12 +36,16 @@ class SearchController extends Controller
     public function caseListSearch(Request $request)
     {
         $keyword = $request->keyword;
+
         $caseLists = CaseList::where('status', 'LIKE', "%$keyword%")
             ->orWhere('inLetterContent', 'LIKE', "%$keyword%")
             ->orWhere('inLetterDate', 'LIKE', "%$keyword%")
             ->orWhere('inLetterNumber', 'LIKE', "%$keyword%")
+            ->orWhereHas('caseFile', function ($query) use ($keyword) {
+                $query->where('fileName', 'LIKE', "%$keyword%");
+            })
             ->get();
 
-            return view('partials.caseListRaw', compact('caseLists'));
+        return view('partials.caseListRaw', compact('caseLists'));
     }
 }

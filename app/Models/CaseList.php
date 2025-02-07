@@ -13,6 +13,7 @@ class CaseList extends Model
         'inLetterDate',
         'inLetterNumber',
         'inLetterContent',
+        'fromDeptName',
 
         'inLetterToDps',
         'inLetterRemark',
@@ -51,6 +52,7 @@ class CaseList extends Model
 
 
         'processToDps',
+        'processCaseRemark',
         'processReturnDate',
 
         'processCaseDpsRemark',
