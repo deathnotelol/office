@@ -55,12 +55,6 @@ class DutyReportController extends Controller
         return view('pages.dutyreport.show', compact('report'));
     }
 
-    /**
-     * Show the form for editing the specified duty report.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function create(): View
     {
         // Return a view with the report details for editing
@@ -74,39 +68,6 @@ class DutyReportController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id): RedirectResponse
-    {
-        // Find and delete the report
-        $report = DutyReport::findOrFail($id);
-        $report->delete();
-
-        // Redirect back to the duty report index with a success message
-        return redirect()->route('pages.dutyreport.index')->with('success', 'Duty report deleted successfully.');
-    }
-
-
-
-    public function edit($id)
-    {
-        // Find the report by ID
-        $report = DutyReport::findOrFail($id);
-
-        // Return a view with the report details for editing
-        return view('pages.dutyreport.edit', compact('report'));
-    }
-
-    public function update(Request $request, $id)
-    {
-        $report = DutyReport::findOrFail($id);
-
-        $rules = $this->getValidationRules();
-        $validatedData = $request->validate($rules);
-
-        $report->update($validatedData);
-
-        return redirect('/dutyreport')->with('success', 'Duty Report was updated successfully.');
-    }
-
 
     //Staff role section start
 
@@ -268,109 +229,6 @@ class DutyReportController extends Controller
 
         return view('pages.dutyreport.editTransfer', compact('temporaryReports'));
     }
-
-    private function getValidationRules($isUpdate = false)
-    {
-        $rules = [
-            //Staff Section
-            'user_id' => 'nullable|exists:users,id',
-            'role_stage' => 'nullable|string|max:255',
-            'is_completed' => 'boolean',
-            'reciverName' => 'required|string|max:255',
-            'reciverNumber' => 'required|string|max:255',
-            'reciverRank' => 'required|string|max:255',
-            'fromTransferName' => 'required|string|max:255',
-            'fromTransferNumber' => 'required|string|max:255',
-            'fromTransferRank' => 'required|string|max:255',
-            'reciveDate' => 'required|date',
-            'hasPermanentStaff' => 'required|integer|min:0',
-            'hasAssociateStaff' => 'required|integer|min:0',
-            'totalStaff' => 'required|integer|min:0',
-            'attenPermanentStaff' => 'required|integer|min:0',
-            'attenAssociateStaff' => 'required|integer|min:0',
-            'attenTotalStaff' => 'required|integer|min:0',
-            'absentPermanentStaff' => 'required|integer|min:0',
-            'absentAssociateStaff' => 'required|integer|min:0',
-            'absentTotalStaff' => 'required|integer|min:0',
-            'absentReson' => 'nullable|string',
-            'inLetter' => 'nullable|integer|min:0',
-            'outLetter' => 'nullable|integer|min:0',
-            'edmsInLetter' => 'nullable|integer|min:0',
-            'edmsOutLetter' => 'nullable|integer|min:0',
-            'gmailInLetter' => 'nullable|integer|min:0',
-            'gmailOutLetter' => 'nullable|integer|min:0',
-            'intMonitoringNewsCount' => 'nullable|integer|min:0',
-            'intMonitoringNewsPaperCount' => 'nullable|integer|min:0',
-            'dailyNewsMM' => 'nullable|integer|min:0',
-            'dailyNewsEng' => 'nullable|integer|min:0',
-            'drugNews' => 'nullable|integer|min:0',
-            'tenderWeb' => 'nullable|integer|min:0',
-            'mohaNewsPaper' => 'nullable|integer|min:0',
-            'mpfInformation' => 'nullable|integer|min:0',
-            'fromDeptFour' => 'nullable|integer|min:0',
-            'announcement' => 'nullable|integer|min:0',
-            'MNPDailyNewsMM' => 'nullable|integer|min:0',
-            'MNPDailyNewsEng' => 'nullable|integer|min:0',
-            'MNPDrugNews' => 'nullable|integer|min:0',
-            'tenderMNP' => 'nullable|integer|min:0',
-            'MNPMohaNewPaper' => 'nullable|integer|min:0',
-            'MNPMpfInformation' => 'nullable|integer|min:0',
-            'MNPFromDeptFour' => 'nullable|integer|min:0',
-            'MNPAnnouncement' => 'nullable|integer|min:0',
-            'remarkForNews' => 'nullable|string|max:1000',
-            'cctvStatus' => 'nullable|string',
-            'rackServerStatus' => 'nullable|string',
-            'desktopGood' => 'nullable|integer|min:0',
-            'desktopBad' => 'nullable|integer|min:0',
-            'laptopGood' => 'nullable|integer|min:0',
-            'laptopBad' => 'nullable|integer|min:0',
-            'printerGood' => 'nullable|integer|min:0',
-            'printerBad' => 'nullable|integer|min:0',
-            'copierGood' => 'nullable|integer|min:0',
-            'copierBad' => 'nullable|integer|min:0',
-            'scannerGood' => 'nullable|integer|min:0',
-            'scannerBad' => 'nullable|integer|min:0',
-            'descOfEquipment' => 'nullable|string',
-            'deptOtherReport' => 'nullable|string',
-            'staffReporting' => 'nullable|string',
-            'offDayCheckForStaff' => 'nullable|string',
-
-            //Officer Section
-            'transferDate' => 'required|date',
-            'toReciverName' => 'nullable|string|max:255',
-            'toReciverNumber' => 'nullable|string|max:255',
-            'toReciverRank' => 'nullable|string|max:255',
-            // 'transferSignature' => 'nullable|string',
-            'transferPersonNumber' => 'nullable|string|max:255',
-            'transferPersonRank' => 'nullable|string|max:255',
-            'transferPersonName' => 'nullable|string|max:255',
-            // 'receiverSignature' => 'nullable|string',
-            'receiverPersonNumber' => 'nullable|string|max:255',
-            'receiverPersonRank' => 'nullable|string|max:255',
-            'receiverPersonName' => 'nullable|string|max:255',
-
-            //DD Section
-            'ddRemark' => 'nullable|string',
-            // 'ddSignature' => 'nullable|string',
-            'ddNumber' => 'nullable|string|max:255',
-            'ddRank' => 'nullable|string|max:255',
-            'ddName' => 'nullable|string|max:255',
-
-            //Director Section
-            'directorRemark' => 'nullable|string',
-            // 'directorSignature' => 'nullable|string',
-            'directorNumber' => 'nullable|string|max:255',
-            'directorRank' => 'nullable|string|max:255',
-            'directorName' => 'nullable|string|max:255',
-            'data' => 'nullable|string'
-        ];
-        if ($isUpdate) {
-            $rules['user_id'] = 'sometimes|exists:users,id'; // Example of dynamic adjustment
-        }
-
-        return $rules;
-    }
-
 
 
     public function updateTransfer(Request $request, $id)
@@ -622,6 +480,138 @@ class DutyReportController extends Controller
     }
     //Director role section end
 
+    public function edit($id)
+    {
+        // Find the report by ID
+        $report = DutyReport::findOrFail($id);
+
+        // Return a view with the report details for editing
+        return view('pages.dutyreport.edit', compact('report'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $report = DutyReport::findOrFail($id);
+
+        $rules = $this->getValidationRules();
+        $validatedData = $request->validate($rules);
+
+        $report->update($validatedData);
+
+        return redirect('/dutyreport')->with('success', 'Duty Report was updated successfully.');
+    }
+
+    public function destroy($id): RedirectResponse
+    {
+        // Find and delete the report
+        $report = DutyReport::findOrFail($id);
+        $report->delete();
+
+        // Redirect back to the duty report index with a success message
+        return redirect()->route('pages.dutyreport.index')->with('success', 'Duty report deleted successfully.');
+    }
+
+    private function getValidationRules($isUpdate = false)
+    {
+        $rules = [
+            //Staff Section
+            'user_id' => 'nullable|exists:users,id',
+            'role_stage' => 'nullable|string|max:255',
+            'is_completed' => 'boolean',
+            'reciverName' => 'required|string|max:255',
+            'reciverNumber' => 'required|string|max:255',
+            'reciverRank' => 'required|string|max:255',
+            'fromTransferName' => 'required|string|max:255',
+            'fromTransferNumber' => 'required|string|max:255',
+            'fromTransferRank' => 'required|string|max:255',
+            'reciveDate' => 'required|date',
+            'hasPermanentStaff' => 'required|integer|min:0',
+            'hasAssociateStaff' => 'required|integer|min:0',
+            'totalStaff' => 'required|integer|min:0',
+            'attenPermanentStaff' => 'required|integer|min:0',
+            'attenAssociateStaff' => 'required|integer|min:0',
+            'attenTotalStaff' => 'required|integer|min:0',
+            'absentPermanentStaff' => 'required|integer|min:0',
+            'absentAssociateStaff' => 'required|integer|min:0',
+            'absentTotalStaff' => 'required|integer|min:0',
+            'absentReson' => 'nullable|string',
+            'inLetter' => 'nullable|integer|min:0',
+            'outLetter' => 'nullable|integer|min:0',
+            'edmsInLetter' => 'nullable|integer|min:0',
+            'edmsOutLetter' => 'nullable|integer|min:0',
+            'gmailInLetter' => 'nullable|integer|min:0',
+            'gmailOutLetter' => 'nullable|integer|min:0',
+            'intMonitoringNewsCount' => 'nullable|integer|min:0',
+            'intMonitoringNewsPaperCount' => 'nullable|integer|min:0',
+            'dailyNewsMM' => 'nullable|integer|min:0',
+            'dailyNewsEng' => 'nullable|integer|min:0',
+            'drugNews' => 'nullable|integer|min:0',
+            'tenderWeb' => 'nullable|integer|min:0',
+            'mohaNewsPaper' => 'nullable|integer|min:0',
+            'mpfInformation' => 'nullable|integer|min:0',
+            'fromDeptFour' => 'nullable|integer|min:0',
+            'announcement' => 'nullable|integer|min:0',
+            'MNPDailyNewsMM' => 'nullable|integer|min:0',
+            'MNPDailyNewsEng' => 'nullable|integer|min:0',
+            'MNPDrugNews' => 'nullable|integer|min:0',
+            'tenderMNP' => 'nullable|integer|min:0',
+            'MNPMohaNewPaper' => 'nullable|integer|min:0',
+            'MNPMpfInformation' => 'nullable|integer|min:0',
+            'MNPFromDeptFour' => 'nullable|integer|min:0',
+            'MNPAnnouncement' => 'nullable|integer|min:0',
+            'remarkForNews' => 'nullable|string|max:1000',
+            'cctvStatus' => 'nullable|string',
+            'rackServerStatus' => 'nullable|string',
+            'desktopGood' => 'nullable|integer|min:0',
+            'desktopBad' => 'nullable|integer|min:0',
+            'laptopGood' => 'nullable|integer|min:0',
+            'laptopBad' => 'nullable|integer|min:0',
+            'printerGood' => 'nullable|integer|min:0',
+            'printerBad' => 'nullable|integer|min:0',
+            'copierGood' => 'nullable|integer|min:0',
+            'copierBad' => 'nullable|integer|min:0',
+            'scannerGood' => 'nullable|integer|min:0',
+            'scannerBad' => 'nullable|integer|min:0',
+            'descOfEquipment' => 'nullable|string',
+            'deptOtherReport' => 'nullable|string',
+            'staffReporting' => 'nullable|string',
+            'offDayCheckForStaff' => 'nullable|string',
+
+            //Officer Section
+            'transferDate' => 'required|date',
+            'toReciverName' => 'nullable|string|max:255',
+            'toReciverNumber' => 'nullable|string|max:255',
+            'toReciverRank' => 'nullable|string|max:255',
+            // 'transferSignature' => 'nullable|string',
+            'transferPersonNumber' => 'nullable|string|max:255',
+            'transferPersonRank' => 'nullable|string|max:255',
+            'transferPersonName' => 'nullable|string|max:255',
+            // 'receiverSignature' => 'nullable|string',
+            'receiverPersonNumber' => 'nullable|string|max:255',
+            'receiverPersonRank' => 'nullable|string|max:255',
+            'receiverPersonName' => 'nullable|string|max:255',
+
+            //DD Section
+            'ddRemark' => 'nullable|string',
+            // 'ddSignature' => 'nullable|string',
+            'ddNumber' => 'nullable|string|max:255',
+            'ddRank' => 'nullable|string|max:255',
+            'ddName' => 'nullable|string|max:255',
+
+            //Director Section
+            'directorRemark' => 'nullable|string',
+            // 'directorSignature' => 'nullable|string',
+            'directorNumber' => 'nullable|string|max:255',
+            'directorRank' => 'nullable|string|max:255',
+            'directorName' => 'nullable|string|max:255',
+            'data' => 'nullable|string'
+        ];
+        if ($isUpdate) {
+            $rules['user_id'] = 'sometimes|exists:users,id'; // Example of dynamic adjustment
+        }
+
+        return $rules;
+    }
 
 
     //Storage Signature
