@@ -1,27 +1,37 @@
 <?php
 
 
-use App\Http\Controllers\DashboardController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\CaseFileController;
 use App\Http\Controllers\CaseListController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DutyReportController;
 use App\Http\Controllers\PermissionController;
-use Barryvdh\Elfinder\ElfinderController;
+use App\Http\Controllers\NotificationController;
+
 
 
 
 // Dashboard route (requires login)
-Route::get('/', function () {
-    return view('pages.dashboard');
-})->middleware('auth')->name('pages.dashboard');
+Route::get('/', [DashboardController::class, 'dashboard'])
+    ->middleware('auth')
+    ->name('pages.dashboard');
 
-Route::get('/', [DashboardController::class, 'dashboard'])->name('pages.dashboard');
+//Notification Section
+// Route::get('/mark-notifications-as-read', function () {
+//     Auth::user()->unreadNotifications->markAsRead();
+//     return redirect()->back();
+// })->name('markNotificationsAsRead');
+
+Route::post('/notification/{id}/read', [NotificationController::class, 'markAsRead'])->name('notification.read');
+Route::post('/notifications/read-all', [NotificationController::class, 'markAllAsRead'])->name('notifications.readAll');
+
 
 //Permission
 Route::group(['middleware' => ['role:super-admin|director|deputy-director|officer|staff']], function () {
@@ -98,8 +108,9 @@ Route::middleware(['role:director'])->group(function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/department', [DepartmentController::class, 'index'])->name('department.index');
-
     Route::get('/department/create', [DepartmentController::class, 'create'])->name('department.create');
+    Route::get('/department/{id}', [DepartmentController::class, 'show'])->name('department.show');
+
     Route::post('/department/store', [DepartmentController::class, 'store'])->name('department.store');
     Route::get('/department/{id}/edit', [DepartmentController::class, 'edit'])->name('department.edit');
     Route::put('/department/{id}/update', [DepartmentController::class, 'update'])->name('department.update');

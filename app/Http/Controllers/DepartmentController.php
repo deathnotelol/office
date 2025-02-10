@@ -2,36 +2,45 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Department;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use App\Notifications\NewItemAddedNotification;
 
 class DepartmentController extends Controller
 {
     public function index(Request $request)
     {
         $deptNames = $request->input('deptName');
-    
+
         $query = Department::query();
-    
+
         // Apply filters
-    
+
         if ($deptNames) {
             $query->where('deptName', $deptNames);
         }
-    
+
         $departments = $query->paginate(10);
-    
+
         // Fetch distinct cabinet and sub-department names for filter dropdowns
         $deptNames = Department::distinct()->pluck('deptName');
 
         return view('pages.departments.index', compact('departments', 'deptNames'));
     }
 
+    public function show($id)
+    {
+        $department = Department::findOrFail($id);
+        return view('pages.departments.show', compact('department'));
+    }
+
     public function create()
     {
         return view('pages.departments.create');
     }
-
     public function store(Request $request)
     {
         // Validate the incoming data
@@ -42,8 +51,27 @@ class DepartmentController extends Controller
             'remark' => 'nullable|string|max:255', // Allow null values
         ]);
 
-        // Create a new CaseFile record
-        Department::create($validatedData);
+        // Create the new department record
+        $department = Department::create($validatedData);
+
+        // Define the notification data, including the URL
+        $notificationData = [
+            'message' => "A new department '{$department->deptShortName}' has been added.",
+            'url' => route('department.show', $department->id),  // Correct URL to department page
+            'time' => now()->toDateTimeString(),
+        ];
+
+        // Notify super-admin users
+        $superAdminUsers = User::whereHas('roles', function ($query) {
+            $query->where('name', 'super-admin')
+            ->orwhere('name', 'director')
+            ->orwhere('name', 'deputy-director')
+            ->orwhere('name', 'officer');
+        })->get();
+
+        foreach ($superAdminUsers as $user) {
+            $user->notify(new NewItemAddedNotification($notificationData['message'], $notificationData['url']));
+        }
 
         return redirect(route('department.index'))->with('success', 'Department created successfully');
     }

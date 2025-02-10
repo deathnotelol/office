@@ -1,6 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-
 <head>
     <meta charset="utf-8">
     <!-- CSRF Token -->
@@ -38,9 +35,22 @@
     <link href="{{ asset('public/css/custom.css') }}" rel="stylesheet">
 
     {{-- elfinder  --}}
-    
+
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
+    <style>
+        .notification_dropdown .dropdown-menu-right .media p {
+            white-space: normal;
+            /* Allow the text to wrap onto multiple lines */
+            overflow: visible;
+            /* Ensure the overflow is visible */
+            word-wrap: break-word;
+            /* Break long words to avoid overflow */
+            margin-bottom: 0;
+            /* margin-top: 5px; */
+            width: 400px;
+        }
+    </style>
 
 
 </head>
@@ -108,73 +118,85 @@
 
 
                         <ul class="navbar-nav header-right">
+                            {{-- 
                             <li class="nav-item dropdown notification_dropdown">
                                 <a class="nav-link" href="#" role="button" data-toggle="dropdown">
                                     <i class="mdi mdi-bell"></i>
                                     <div class="pulse-css"></div>
+                                    <span
+                                        class="badge badge-danger">{{ Auth::user()->unreadNotifications->count() }}</span>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <ul class="list-unstyled">
-                                        <li class="media dropdown-item">
-                                            <span class="success"><i class="ti-user"></i></span>
-                                            <div class="media-body">
-                                                <a href="#">
-                                                    <p><strong>Martin</strong> has added a <strong>customer</strong>
-                                                        Successfully
-                                                    </p>
-                                                </a>
-                                            </div>
-                                            <span class="notify-time">3:20 am</span>
-                                        </li>
-                                        <li class="media dropdown-item">
-                                            <span class="primary"><i class="ti-shopping-cart"></i></span>
-                                            <div class="media-body">
-                                                <a href="#">
-                                                    <p><strong>Jennifer</strong> purchased Light Dashboard 2.0.</p>
-                                                </a>
-                                            </div>
-                                            <span class="notify-time">3:20 am</span>
-                                        </li>
-                                        <li class="media dropdown-item">
-                                            <span class="danger"><i class="ti-bookmark"></i></span>
-                                            <div class="media-body">
-                                                <a href="#">
-                                                    <p><strong>Robin</strong> marked a <strong>ticket</strong> as
-                                                        unsolved.
-                                                    </p>
-                                                </a>
-                                            </div>
-                                            <span class="notify-time">3:20 am</span>
-                                        </li>
-                                        <li class="media dropdown-item">
-                                            <span class="primary"><i class="ti-heart"></i></span>
-                                            <div class="media-body">
-                                                <a href="#">
-                                                    <p><strong>David</strong> purchased Light Dashboard 1.0.</p>
-                                                </a>
-                                            </div>
-                                            <span class="notify-time">3:20 am</span>
-                                        </li>
-                                        <li class="media dropdown-item">
-                                            <span class="success"><i class="ti-image"></i></span>
-                                            <div class="media-body">
-                                                <a href="#">
-                                                    <p><strong> James.</strong> has added a<strong>customer</strong>
-                                                        Successfully
-                                                    </p>
-                                                </a>
-                                            </div>
-                                            <span class="notify-time">3:20 am</span>
-                                        </li>
+                                        @foreach (Auth::user()->unreadNotifications as $notification)
+                                            <li class="media dropdown-item">
+                                                <span class="success"><i class="ti-email"></i></span>
+                                                <div class="media-body">
+                                                    <a
+                                                        href="{{ isset($notification->data['url']) ? $notification->data['url'] : '#' }}">
+                                                        <p><strong>{{ $notification->data['message'] ?? 'No message' }}</strong></p>
+                                                    </a>
+                                                </div>
+                                                <span
+                                                    class="notify-time">{{ $notification->data['time'] ?? 'N/A' }}</span>
+                                            </li>
+                                        @endforeach
                                     </ul>
-                                    <a class="all-notification" href="#">See all notifications <i
-                                            class="ti-arrow-right"></i></a>
+                                    <a class="all-notification" href="{{ route('markNotificationsAsRead') }}">
+                                        Mark all as read <i class="ti-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </li> --}}
+
+                            <li class="nav-item dropdown notification_dropdown">
+                                <a class="nav-link" href="#" role="button" data-toggle="dropdown">
+                                    <i class="mdi mdi-bell"></i>
+                                    <div class="pulse-css"></div>
+                                    <span class="badge badge-danger" id="notification-count">
+                                        {{ Auth::user()->unreadNotifications->count() }}
+                                    </span>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <ul class="list-unstyled" id="notification-list">
+                                        @foreach (Auth::user()->unreadNotifications as $notification)
+                                            <li class="media dropdown-item" id="notification-{{ $notification->id }}">
+                                                <span class="success"><i class="ti-user"></i></span>
+                                                <div class="media-body">
+                                                    <a href="{{ $notification->data['url'] ?? '#' }}"
+                                                        onclick="markNotificationAsRead(event, '{{ $notification->id }}')">
+                                                        <p><strong>{{ $notification->data['message'] ?? 'No message' }}</strong>
+                                                        </p>
+                                                    </a>
+                                                </div>
+                                                <span
+                                                    class="notify-time">{{ $notification->data['time'] ?? 'N/A' }}</span>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+
+                                    <a class="all-notification" href="#"
+                                        onclick="markAllNotificationsAsRead(event)">
+                                        Mark all as read <i class="ti-arrow-right"></i>
+                                    </a>
                                 </div>
                             </li>
+
+
+
                             <li class="nav-item dropdown header-profile">
                                 <a class="nav-link" href="#" role="button" data-toggle="dropdown">
                                     <span class="text-primary font-weight-bold">{{ Auth::user()->name }}</span>
                                 </a>
+                                {{-- @auth
+                                    <a class="nav-link" href="#" role="button" data-toggle="dropdown">
+                                        <span class="text-primary font-weight-bold">{{ Auth::user()->name }}</span>
+                                    </a>
+                                @else
+                                    <script>
+                                        window.location.href = "{{ url('/login') }}";
+                                    </script>
+                                @endauth --}}
+
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <a href="./app-profile.html" class="dropdown-item">
                                         <i class="icon-user"></i>
@@ -201,6 +223,64 @@
                 </nav>
             </div>
         </div>
+
         <!--**********************************
             Header end ti-comment-alt
         ***********************************-->
+
+        <script>
+            function markNotificationAsRead(event, notificationId) {
+                // event.preventDefault(); // Prevent page reload
+
+                fetch(`/office/notification/${notificationId}/read`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        }
+                    })
+                    .then(response => response.text()) // Read response as text instead of JSON
+                    .then(data => {
+                        console.log("Raw response:", data); // Log response for debugging
+                        try {
+                            let jsonData = JSON.parse(data); // Attempt to parse JSON
+                            if (jsonData.success) {
+                                document.getElementById(`notification-${notificationId}`).remove();
+                                let countElement = document.getElementById('notification-count');
+                                let count = parseInt(countElement.innerText) || 0;
+                                countElement.innerText = count > 1 ? count - 1 : '';
+                                if (count - 1 <= 0) countElement.style.display = 'none';
+                            } else {
+                                console.error("Notification error:", jsonData.error);
+                            }
+                        } catch (error) {
+                            console.error("JSON Parse Error:", error);
+                        }
+                    })
+                    .catch(error => console.error('Fetch Error:', error));
+            }
+
+            function markAllNotificationsAsRead(event) {
+                event.preventDefault(); // Prevent link action
+
+                fetch('/office/notifications/read-all', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Remove all notifications from the UI
+                            document.getElementById('notification-list').innerHTML = '';
+
+                            // Hide the unread count badge
+                            let countElement = document.getElementById('notification-count');
+                            countElement.style.display = 'none';
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+        </script>

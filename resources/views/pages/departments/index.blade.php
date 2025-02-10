@@ -104,6 +104,8 @@
                                                 <td>{{ $department->deptName }}</td>
                                                 <td>{{ $department->remark }}</td>
                                                 <td>
+                                                    <a class="btn btn-success"
+                                                        href="{{ route('department.show', $department->id) }}">View</a>
                                                     <a class="btn btn-primary"
                                                         href="{{ route('department.edit', $department->id) }}">Edit</a>
                                                     <form
