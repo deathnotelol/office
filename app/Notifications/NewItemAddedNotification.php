@@ -13,6 +13,7 @@ class NewItemAddedNotification extends Notification
 
     public $message;
     public $url;
+    public $time;
 
     /**
      * Create a new notification instance.
@@ -21,6 +22,7 @@ class NewItemAddedNotification extends Notification
     {
         $this->message = $message;
         $this->url = $url;
+        $this->time = now()->format('h:i A');
     }
 
     /**
@@ -39,7 +41,7 @@ class NewItemAddedNotification extends Notification
         return [
             'message' => $this->message,
             'url' => $this->url,  // Save the URL to the database
-            'time' => now()->format('h:i A'),
+            'time' => $this->time,
         ];
     }
 }

@@ -131,6 +131,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/caseFile/{id}/edit', [CaseFileController::class, 'edit'])->name('caseFile.edit');
     Route::put('/caseFile/{id}/update', [CaseFileController::class, 'update'])->name('caseFile.update');
 
+    Route::get('/case-file/{id}/case-lists', [CaseFileController::class, 'showCaseLists'])->name('caseFile.showCaseLists');
+
+
 
     Route::delete('/caseFile/{id}', [CaseFileController::class, 'destroy'])->name('caseFile.destroy');
 });

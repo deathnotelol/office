@@ -129,19 +129,26 @@
                                                 <td>{{ $caseList->inLetterReturnDate }}</td>
                                                 <td>{{ $caseList->caseCompletedDate }}</td>
                                                 <td>
-                                                    <div class="btn-group" role="group" aria-label="Action buttons">
-                                                        <a target="_blank" class="btn btn-success" style="margin-right: 8px;" href="{{ route('caseList.show', $caseList->id) }}">View</a>
-                                                        <a class="btn btn-primary" style="margin-right: 8px;" href="{{ route('caseList.edit', $caseList->id) }}">Edit</a>
+                                                    <div class="btn-group" role="group" aria-label="Action buttons" style="display: flex; gap: 8px; align-items: center;">
+                                                        <a class="btn btn-success" href="{{ route('caseList.show', $caseList->id) }}">View</a>
+                                                        <a class="btn btn-primary" href="{{ route('caseList.edit', $caseList->id) }}">Edit</a>
                                                         <form
                                                             onsubmit="return confirm('Are you sure you want to delete this case list?');"
                                                             action="{{ route('caseList.destroy', $caseList->id) }}"
-                                                            method="POST" style="display: inline;">
+                                                            method="POST" style="display: inline; margin-bottom: 0;">
                                                             @csrf
                                                             @method('DELETE')
                                                             <button type="submit" class="btn btn-danger">Delete</button>
                                                         </form>
                                                     </div>
                                                 </td>
+                                                {{-- <td>
+                                                    <div class="btn-group" role="group" aria-label="Action buttons">
+                                                    <a href="{{route('caseList.show', $caseList->id)}}" class="btn btn-success mr-1 p-2">View</a>
+                                                    <a href="{{ route('caseList.edit', $caseList->id) }}" class="btn btn-primary mr-1 p-2">Edit</a>
+                                                    <a href="" class="btn btn-danger p-2"> Delete</a>
+                                                    </div>
+                                                </td> --}}
                                             </tr>
                                         @endforeach
                                     </tbody>

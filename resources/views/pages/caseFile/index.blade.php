@@ -138,7 +138,8 @@
                                                 <td class="text-justify">{{ $caseFile->fileName }}</td>
                                                 <td>{{ $caseFile->fileOpenDate }}</td>
                                                 <td>
-                                                    <a class="btn btn-success" href="">View Case List</a>
+                                                    <a class="btn btn-info" href="{{route('caseFile.showCaseLists', $caseFile->id)}}">Case List</a>
+                                                    <a class="btn btn-success" href="{{route('caseFile.show', $caseFile->id)}}">View</a>
                                                     <a class="btn btn-primary"
                                                         href="{{ route('caseFile.edit', $caseFile->id) }}">Edit</a>
                                                     <form

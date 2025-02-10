@@ -186,6 +186,13 @@ class CaseListController extends Controller
         // Save the case list data
         $caseList->save();
 
+        $user = Auth::user()->name;
+        $message = "စာအမှတ် '{$caseList->inLetterNumber}' အား '{$user}' မှ ရေးသွင်းပါသည်။";
+        $url = route('caseList.show', $caseList->id);
+
+        // Using the NotificationController to send notification
+        NotificationController::sendNotification($message, $url);
+
         // Return a success response
         return redirect()->route('caseList.index')->with('success', 'Case list created successfully.');
     }

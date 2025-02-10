@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Models\Department;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
-use App\Notifications\NewItemAddedNotification;
+use App\Http\Controllers\NotificationController;
 
 class DepartmentController extends Controller
 {
@@ -54,24 +52,12 @@ class DepartmentController extends Controller
         // Create the new department record
         $department = Department::create($validatedData);
 
-        // Define the notification data, including the URL
-        $notificationData = [
-            'message' => "A new department '{$department->deptShortName}' has been added.",
-            'url' => route('department.show', $department->id),  // Correct URL to department page
-            'time' => now()->toDateTimeString(),
-        ];
+        $user = Auth::user()->name;
+        $message = "A new department '{$department->deptShortName}' has been added by '{$user}'.";
+        $url = route('department.show', $department->id);
 
-        // Notify super-admin users
-        $superAdminUsers = User::whereHas('roles', function ($query) {
-            $query->where('name', 'super-admin')
-            ->orwhere('name', 'director')
-            ->orwhere('name', 'deputy-director')
-            ->orwhere('name', 'officer');
-        })->get();
-
-        foreach ($superAdminUsers as $user) {
-            $user->notify(new NewItemAddedNotification($notificationData['message'], $notificationData['url']));
-        }
+        // Using the NotificationController to send notification
+        NotificationController::sendNotification($message, $url);
 
         return redirect(route('department.index'))->with('success', 'Department created successfully');
     }

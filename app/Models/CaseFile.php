@@ -14,8 +14,14 @@ class CaseFile extends Model
         'fileOpenDate',
     ];
 
-    public function caseList()
-    {
-        return $this->belongsTo(CaseList::class, 'file_id', 'id');
-    }
+    // public function caseList()
+    // {
+    //     return $this->belongsTo(CaseList::class, 'file_id', 'id');
+    // }
+
+     // Define the relationship to CaseList
+     public function caseLists()
+     {
+         return $this->hasMany(CaseList::class, 'file_id');
+     }
 }

@@ -64,6 +64,7 @@
                         </div>
                     </div>
                     <button class="btn btn-lg btn-success p-3" type="submit">Submit</button>
+                    <a href="{{ route('caseFile.index') }}" class="btn btn-lg btn-primary p-3">Back</a>
                 </form>
             </div>
         </div>
