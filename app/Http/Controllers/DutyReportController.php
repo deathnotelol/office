@@ -7,6 +7,7 @@ use App\Models\DutyReport;
 use Illuminate\Http\Request;
 use App\Models\TemporaryDutyReport;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 
 
@@ -73,7 +74,7 @@ class DutyReportController extends Controller
 
     public function store(Request $request)
     {
-        $role = auth()->user()->getRoleNames()->first(); // Assuming you're using Spatie Roles
+        $role = Auth::user()->getRoleNames()->first(); // Assuming you're using Spatie Roles
 
         switch ($role) {
             case 'staff':
@@ -146,13 +147,13 @@ class DutyReportController extends Controller
             'staffReporting' => 'nullable|string',
             'offDayCheckForStaff' => 'nullable|string',
         ]);
-        $userId = auth()->id();
+        $userId = Auth::user()->id;
         if (!$userId) {
             return response()->json(['error' => 'User not authenticated'], 401);
         }
 
-        TemporaryDutyReport::create([
-            'user_id' => auth()->id(),
+       TemporaryDutyReport::create([
+            'user_id' => $userId,
             'data' => json_encode($validatedData),
             'is_completed' => false,
             'role_stage' => 'initial', // Provide an appropriate value
@@ -216,6 +217,14 @@ class DutyReportController extends Controller
             'offDayCheckForStaff' => $request->offDayCheckForStaff,
         ]);
 
+        //notification
+        $userName = Auth::user()->name;
+        $message = "A new Duty Report has been created by '{$userName}'.";
+        $url = route('pages.dutyreport.index');
+
+        // Using the NotificationController to send notification
+        NotificationController::sendNotificationToOfficer($message, $url);
+
         return redirect('/dutyreport')->with('success', 'Data temporarily saved.');
     }
 
@@ -233,6 +242,7 @@ class DutyReportController extends Controller
 
     public function updateTransfer(Request $request, $id)
     {
+        $userId = Auth::user()->id;
         // Fetch the report
         $report = TemporaryDutyReport::find($id);
 
@@ -245,7 +255,7 @@ class DutyReportController extends Controller
 
         // Check if yesterday's report exists and validate user's role
         if ($yesterdayReport) {
-            $currentUserId = auth()->id();
+            $currentUserId = $userId;
 
             // Check if the current user was a transfer user yesterday
             if ($yesterdayReport->transfer_user_id === $currentUserId) {
@@ -263,26 +273,35 @@ class DutyReportController extends Controller
         if ($request->filled('transferSignature')) {
             $transferSignaturePath = $this->storeSignature(
                 $request->input('transferSignature'),
-                preg_replace('/\s+/', '_', auth()->user()->name) // Replace spaces in the user name with underscores
+                preg_replace('/\s+/', '_', Auth::user()->name) // Replace spaces in the user name with underscores
             );
 
             if ($transferSignaturePath) {
                 // Update or create the user's transfer signature
-                auth()->user()->signatures()->updateOrCreate(
-                    ['signature_name' => auth()->user()->name],
+                Auth::user()->signatures()->updateOrCreate(
+                    ['signature_name' => Auth::user()->name],
                     ['image_path' => $transferSignaturePath]
                 );
             }
         }
-        $transferSignature = auth()->user()->signatures()->first();
+        $transferSignature = Auth::user()->signatures()->first();
 
         // Update the report
         $report->update(array_merge($validatedData, [
             'transferSignature' => $transferSignature->image_path,
-            'user_id' => auth()->id(),
+            'user_id' => $userId,
             'role_stage' => 'officer_role',
-            'transfer_user_id' => auth()->id(),
+            'transfer_user_id' => $userId,
         ]));
+
+         //notification
+         $userName = Auth::user()->name;
+         $message = "A Duty Report has been Transfer by '{$userName}'.";
+         $url = route('pages.dutyreport.index');
+ 
+         // Using the NotificationController to send notification
+         NotificationController::sendNotificationToOfficer($message, $url);
+ 
 
         return redirect('/dutyreport')->with('success', 'Duty Report was updated by the officer.');
     }
@@ -300,6 +319,8 @@ class DutyReportController extends Controller
 
     public function updateReceiver(Request $request, $id)
     {
+
+        $userId = Auth::user()->id;
         // Fetch the report
         $report = TemporaryDutyReport::find($id);
 
@@ -307,7 +328,7 @@ class DutyReportController extends Controller
 
         // Check if yesterday's report exists and validate user's role
         if ($yesterdayReport) {
-            $currentUserId = auth()->id();
+            $currentUserId = $userId;
 
             // Check if the current user was a receiver yesterday
             if ($yesterdayReport->receiver_user_id === $currentUserId) {
@@ -325,26 +346,34 @@ class DutyReportController extends Controller
         if ($request->filled('receiverSignature')) {
             $receiverSignaturePath = $this->storeSignature(
                 $request->input('receiverSignature'),
-                preg_replace('/\s+/', '_', auth()->user()->name) // Replace spaces in the user name with underscores
+                preg_replace('/\s+/', '_', Auth::user()->name) // Replace spaces in the user name with underscores
             );
 
             if ($receiverSignaturePath) {
                 // Update or create the user's receiver signature
-                auth()->user()->signatures()->updateOrCreate(
-                    ['signature_name' => auth()->user()->name],
+                Auth::user()->signatures()->updateOrCreate(
+                    ['signature_name' => Auth::user()->name],
                     ['image_path' => $receiverSignaturePath]
                 );
             }
         }
 
-        $receiverSignature = auth()->user()->signatures()->first();
+        $receiverSignature = Auth::user()->signatures()->first();
         // Update the report
         $report->update(array_merge($validatedData, [
             'receiverSignature' => $receiverSignature->image_path,
-            'user_id' => auth()->id(),
+            'user_id' => $userId,
             'role_stage' => 'officer_role',
-            'receiver_user_id' => auth()->id(),
+            'receiver_user_id' => $userId,
         ]));
+
+         //notification
+         $userName = Auth::user()->name;
+         $message = "A Duty Report has been Received by '{$userName}'.";
+         $url = route('pages.dutyreport.index');
+ 
+         // Using the NotificationController to send notification
+         NotificationController::sendNotificationToDD($message, $url);
 
         return redirect('/dutyreport')->with('success', 'Duty Report was updated by officer.');
     }
@@ -382,25 +411,34 @@ class DutyReportController extends Controller
         if ($request->filled('ddSignature')) {
             $signaturePath = $this->storeSignature(
                 $request->input('ddSignature'),
-                preg_replace('/\s+/', '_', auth()->user()->name) // Replace spaces in the user name with underscores
+                preg_replace('/\s+/', '_', Auth::user()->name) // Replace spaces in the user name with underscores
             );
 
             if ($signaturePath) {
                 // Update or create the user's signature
-                auth()->user()->signatures()->updateOrCreate(
-                    ['signature_name' => auth()->user()->name],
+                Auth::user()->signatures()->updateOrCreate(
+                    ['signature_name' => Auth::user()->name],
                     ['image_path' => $signaturePath]
                 );
             }
         }
 
-        $ddSignature = auth()->user()->signatures()->first();
+        $ddSignature = Auth::user()->signatures()->first();
+        $userId = Auth::user()->id;
         // Update the report
         $report->update(array_merge($validatedData, [
             'ddSignature' => $ddSignature->image_path,
-            'user_id' => auth()->id(),
+            'user_id' =>  $userId,
             'role_stage' => 'deputy_director',
         ]));
+
+         //notification
+         $userName = Auth::user()->name;
+         $message = "A Duty Report has been Submitted by '{$userName}'.";
+         $url = route('pages.dutyreport.index');
+ 
+         // Using the NotificationController to send notification
+         NotificationController::sendNotificationToDirector($message, $url);
 
         return redirect('/dutyreport')->with('success', 'Duty Report was approved by Deputy Director.');
     }
@@ -439,19 +477,19 @@ class DutyReportController extends Controller
         if ($request->filled('directorSignature')) {
             $signaturePath = $this->storeSignature(
                 $request->input('directorSignature'),
-                preg_replace('/\s+/', '_', auth()->user()->name) // Replace spaces in the user name with underscores
+                preg_replace('/\s+/', '_', Auth::user()->name) // Replace spaces in the user name with underscores
             );
 
             if ($signaturePath) {
-                auth()->user()->signatures()->updateOrCreate(
-                    ['signature_name' => auth()->user()->name],
+                Auth::user()->signatures()->updateOrCreate(
+                    ['signature_name' => Auth::user()->name],
                     ['image_path' => $signaturePath]
                 );
             }
         }
 
         // Fetch the current user's director signature
-        $directorSignature = auth()->user()->signatures()->first();
+        $directorSignature = Auth::user()->signatures()->first();
 
 
         // Merge data from the temporary report with validated inputs
@@ -460,7 +498,7 @@ class DutyReportController extends Controller
 
         // Ensure all fields are properly merged
         $reportData = array_merge($reportData, [
-            'user_id' => auth()->id(),
+            'user_id' => Auth::user()->id,
             'role_stage' => 'Director',
             'is_completed' => true,
             'directorRemark' => $validatedData['directorRemark'] ?? $temporaryReport->directorRemark,
@@ -471,10 +509,18 @@ class DutyReportController extends Controller
         ]);
 
         // Insert into the `duty_reports` table
-        DutyReport::create($reportData);
+        $report = DutyReport::create($reportData);
 
         // Delete the record from `temporary_duty_reports` table
         $temporaryReport->delete();
+
+         //notification
+         $userName = Auth::user()->name;
+         $message = "A Duty Report has been Submitted by '{$userName}'.";
+         $url = route('pages.dutyreport.show', $report->id);
+ 
+         // Using the NotificationController to send notification
+         NotificationController::sendNotification($message, $url);
 
         return redirect('/dutyreport')->with('success', 'Duty Report was approved by Director.');
     }

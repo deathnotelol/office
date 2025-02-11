@@ -36,4 +36,36 @@ class NotificationController extends Controller
             $user->notify(new NewItemAddedNotification($message, $url));
         }
     }
+
+    public static function sendNotificationToOfficer($message, $url)
+    {
+        $roles = ['super-admin', 'officer'];
+        $notifiableUsers = User::role($roles)->get(); // Using Spatie's helper function
+
+        foreach ($notifiableUsers as $user) {
+            // Pass message and URL to the notification
+            $user->notify(new NewItemAddedNotification($message, $url));
+        }
+    }
+    public static function sendNotificationToDD($message, $url)
+    {
+        $roles = ['super-admin', 'deputy-director'];
+        $notifiableUsers = User::role($roles)->get(); // Using Spatie's helper function
+
+        foreach ($notifiableUsers as $user) {
+            // Pass message and URL to the notification
+            $user->notify(new NewItemAddedNotification($message, $url));
+        }
+    }
+
+    public static function sendNotificationToDirector($message, $url)
+    {
+        $roles = ['super-admin', 'director'];
+        $notifiableUsers = User::role($roles)->get(); // Using Spatie's helper function
+
+        foreach ($notifiableUsers as $user) {
+            // Pass message and URL to the notification
+            $user->notify(new NewItemAddedNotification($message, $url));
+        }
+    }
 }

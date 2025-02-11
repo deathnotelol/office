@@ -16,6 +16,8 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\NotificationController;
 
 
+// Protected routes (Require authentication)
+
 
 
 // Dashboard route (requires login)
@@ -47,6 +49,11 @@ Route::group(['middleware' => ['role:super-admin|director|deputy-director|office
     Route::resource('users', UserController::class);
     Route::get('users/{userId}/delete', [UserController::class, 'destroy']);
 
+});
+
+//Duty Report Route
+
+Route::middleware(['auth'])->group(function () {
     //Duty Report
     Route::get('/dutyreport', [DutyReportController::class, 'index'])->name('pages.dutyreport.index');
     Route::get('/dutyreport/create', [DutyReportController::class, 'create'])->name('pages.dutyreport.create');
@@ -56,9 +63,7 @@ Route::group(['middleware' => ['role:super-admin|director|deputy-director|office
 
 
     Route::delete('/dutyreport/{id}', [DutyReportController::class, 'destroy'])->name('pages.dutyreport.destroy');
-
-});
-
+    
 
 
 //Input Data By User Role
@@ -103,6 +108,9 @@ Route::middleware(['role:director'])->group(function () {
     Route::put('/temporary-duty-report/{id}/updateDirectorApprove', [DutyReportController::class, 'updateDirectorApprove'])
         ->name('temporary-duty-report.updateDirectorApprove');
 });
+
+});
+
 
 //Department
 
@@ -173,3 +181,5 @@ Route::group(['middleware' => ['web', 'auth']], function () {
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+
