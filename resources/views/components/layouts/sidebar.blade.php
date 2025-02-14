@@ -20,6 +20,12 @@
                                 </ul>
                             </li>
                             <li><a class="has-arrow" href="{{ route('department.index') }}" aria-expanded="false">ဌာနများ</a>
+                                <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">ကိုယ်ရေးအချက်အလက်</a>
+                                    <ul aria-expanded="false">
+                                        <li><a href="{{ route('personnel.index') }}">ကိုယ်ရေးအချက် ၁၈ ချက်</a></li>
+                                        <li><a href="">ကိုယ်ရေးအချက် ၅၃ ချက်</a></li>
+                                    </ul>
+                                </li>
                         </ul>
                     </li>
 

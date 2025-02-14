@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Controllers\PersonnelDataController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
@@ -160,6 +161,21 @@ Route::middleware(['auth'])->group(function () {
 
 
     Route::delete('/caseList/{id}', [CaseListController::class, 'destroy'])->name('caseList.destroy');
+});
+
+//Personal Data
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/personnel', [PersonnelDataController::class, 'index'])->name('personnel.index');
+
+    Route::get('/personnel/create', [PersonnelDataController::class, 'create'])->name('personnel.create');
+    Route::post('/personnel/store', [PersonnelDataController::class, 'store'])->name('personnel.store');
+    Route::get('/personnel/{id}', [PersonnelDataController::class, 'show'])->name('personnel.show');
+    Route::get('/personnel/{id}/edit', [PersonnelDataController::class, 'edit'])->name('personnel.edit');
+    Route::match(['PUT', 'POST'], '/personnel/{id}/update', [PersonnelDataController::class, 'update'])->name('personnel.update');
+
+
+    Route::delete('/personnel/{id}', [PersonnelDataController::class, 'destroy'])->name('personnel.destroy');
 });
 
 

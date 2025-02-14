@@ -28,6 +28,9 @@
 
     <link href="{{ asset('public/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('public/vendor/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+
+
+    
     <!-- Bootstrap Bundle with Popper -->
     {{-- <script src="{{ asset('public/vendor/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script> --}}
     <script src="{{ asset('public/js/jquery-3.6.0.min.js') }}"></script>

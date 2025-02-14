@@ -7,24 +7,24 @@
             <div class="row page-titles mx-0">
                 <div class="col-sm-12 p-md-0">
                     <div class="welcome-text text-center">
-                        <h2>ပြည်ထဲရေးဝန်ကြီးဌာန၊ ဝန်ကြီးရုံး၊ e-Government ဌာန အမှုတွဲဖိုင်များ</h2>
+                        <h2>ပြည်ထဲရေးဝန်ကြီးဌာန၊ ဝန်ကြီးရုံး၊ e-Government ဌာန ဝန်ထမ်းကိုယ်ရေးအချက်အလက်များ</h2>
                     </div>
                 </div>
             </div>
 
             <div class="d-flex justify-content-between">
-                <a class="btn btn-primary p-3 mb-2 text-white" href="{{ route('caseList.create') }}">
-                    အမှုတွဲများရေးသွင်းရန်
+                <a class="btn btn-primary p-3 mb-2 text-white" href="{{ route('personnel.create') }}">
+                    ကိုယ်ရေးအချက်အလက်ဖြည့်သွင်းရန်
                 </a>
-                @if ($caseLists->total() > 0)
+                {{-- @if ($personnels->total() > 0)
                     <div class="pagination-summery">
                         <p>
-                            Showing <strong>{{ $caseLists->firstItem() }}</strong> to
-                            <strong>{{ $caseLists->lastItem() }}</strong> of <strong>{{ $caseLists->total() }}</strong>
+                            Showing <strong>{{ $personnels->firstItem() }}</strong> to
+                            <strong>{{ $personnels->lastItem() }}</strong> of <strong>{{ $personnels->total() }}</strong>
                             results.
                         </p>
                     </div>
-                @endif
+                @endif --}}
             </div>
 
             <div>
@@ -85,7 +85,7 @@
                 <div class="col-xl-12 col-xxl-12">
                     <div class="card">
                         <div class="card-header">
-                            <h2 class="card-title font-weight-bold">အမှုတွဲများ</h2>
+                            <h2 class="card-title font-weight-bold">ကိုယ်ရေးအချက်အလက်များ</h2>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -93,49 +93,33 @@
                                     <thead class="thead-primary">
                                         <tr>
                                             <th>စဉ်</th>
-                                            <th>ဖိုင်အမည်</th>
-                                            <th>Status</th>
-                                            <th>ရက်စွဲ</th>
-                                            <th>စာအမှတ်</th>
-                                            <th>အကြောင်းအရာ</th>
-                                            <th>ဝင်စာတင်သည့်မှတ်ချက်</th>
-                                            <th>ဝင်စာတင်သည့်ရက်</th>
-                                            <th>ဝင်စာပြန်ကျသည့်ရက်</th>
-                                            <th>အမှုတွဲပြီးပြတ်သည့်နေ့</th>
+                                            <th>ဓာတ်ပုံ</th>
+                                            <th>ကိုယ်ပိုင်အမှတ်</th>
+                                            <th>အဆင့်</th>
+                                            <th>အမည်</th>
+                                            <th>လက်ရှိတာဝန်</th>
+                                            <th>လက်ရှိတပ်ဖွဲ့/ဌာန</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody id="caseListTableBody">
-                                        @foreach ($caseLists as $key => $caseList)
+                                        {{-- @foreach ($personnels as $key => $personnel) --}}
                                             <tr>
-                                                <td>{{ $key + 1 }}</td>
-                                                <td>{{ $caseList->caseFile ? $caseList->caseFile->fileName : 'N/A' }}</td>
+                                                <td>၁</td>
+                                                <td>Image</td>
+                                                <td>ထ/၁၄၅၁၇၈</td>
+                                                <td>ရုံးအုပ်</td>
+                                                <td>စောနေလင်းထက်</td>
+                                                <td>အမှုတွဲကိုင်</td>
+                                                <td>e-Government ဌာန</td>
                                                 <td>
-                                                    @if($caseList->status == 'Pending')
-                                                        <label class="badge bg-warning mx-1">{{ $caseList->status }}</label>
-                                                    @elseif($caseList->status == 'Progress')
-                                                        <label class="badge bg-info mx-1">{{ $caseList->status }}</label>
-                                                    @elseif($caseList->status == 'Completed')
-                                                        <label class="badge bg-success mx-1">{{ $caseList->status }}</label>
-                                                    @else
-                                                        <label class="badge bg-secondary mx-1">{{ $caseList->status }}</label>
-                                                    @endif
-                                                </td>
-                                                <td>{{ $caseList->inLetterDate }}</td>
-                                                <td class="text-justify">{{ $caseList->inLetterNumber }}</td>
-                                                <td class="text-justify">{{ $caseList->inLetterContent }}</td>
-                                                <td class="text-justify">{{ $caseList->inLetterRemark }}</td>
-                                                <td>{{ $caseList->inLetterToDps }}</td>
-                                                <td>{{ $caseList->inLetterReturnDate }}</td>
-                                                <td>{{ $caseList->caseCompletedDate }}</td>
-                                                <td>
-                                                    <div class="btn-group" role="group" aria-label="Action buttons">
-                                                        <a target="_blank" class="btn btn-success" style="margin-right: 8px;" href="{{ route('caseList.show', $caseList->id) }}">View</a>
-                                                        <a class="btn btn-primary" style="margin-right: 8px;" href="{{ route('caseList.edit', $caseList->id) }}">Edit</a>
+                                                    <div class="btn-group" role="group" aria-label="Action buttons" style="display: flex; gap: 8px; align-items: center;">
+                                                        <a class="btn btn-success" href="">View</a>
+                                                        <a class="btn btn-primary" href="">Edit</a>
                                                         <form
                                                             onsubmit="return confirm('Are you sure you want to delete this case list?');"
-                                                            action="{{ route('caseList.destroy', $caseList->id) }}"
-                                                            method="POST" style="display: inline;">
+                                                            action=""
+                                                            method="POST" style="display: inline; margin-bottom: 0;">
                                                             @csrf
                                                             @method('DELETE')
                                                             <button type="submit" class="btn btn-danger">Delete</button>
@@ -143,15 +127,14 @@
                                                     </div>
                                                 </td>
                                             </tr>
-                                        @endforeach
+                                        {{-- @endforeach --}}
                                     </tbody>
-
                                 </table>
                             </div>
                         </div>
-                        <div class="d-flex justify-content-center">
-                            {{ $caseLists->onEachSide(1)->links() }}
-                        </div>
+                        {{-- <div class="d-flex justify-content-center">
+                            {{ $personnels->onEachSide(1)->links() }}
+                        </div> --}}
                     </div>
                 </div>
             </div>
