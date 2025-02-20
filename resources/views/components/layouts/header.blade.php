@@ -4,7 +4,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title> HR Management System </title>
+    <title> Office Management System </title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('public/images/favicon.png') }}">
     <link rel="stylesheet" href="{{ asset('public/vendor/owl-carousel/css/owl.carousel.min.css') }}">
