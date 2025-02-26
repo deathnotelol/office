@@ -128,7 +128,7 @@
                                             </tr>
                                         @endforeach
                                     </tbody> --}}
-                                    <tbody id="caseFileTableBody">
+                                    <tbody id="caseFileTableBody" class="tableBody">
                                         @foreach ($caseFiles as $key => $caseFile)
                                             <tr>
                                                 <td>{{ $key + 1 }}</td>
@@ -167,28 +167,4 @@
         </div>
     </div>
 
-    <script>
-        $(document).ready(function() {
-            // Trigger the AJAX call on keyup
-            $('#searchInput').on('keyup', function() {
-                var keyword = $(this).val(); // Get the value from the input box
-
-                // Make an AJAX request
-                $.ajax({
-                    url: '{{ route('caseFile.search') }}', // Your Laravel route for search
-                    method: 'GET',
-                    data: {
-                        keyword: keyword
-                    },
-                    success: function(response) {
-                        // Update the table body with the search results
-                        $('#caseFileTableBody').html(response);
-                    },
-                    error: function(xhr) {
-                        console.error('Search failed: ', xhr);
-                    }
-                });
-            });
-        });
-    </script>
     @include('components.layouts.footer')

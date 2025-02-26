@@ -28,6 +28,8 @@
 
     <link href="{{ asset('public/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('public/vendor/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('public/css/jquery.dataTables.min.css') }}" rel="stylesheet">
+
 
 
     
@@ -39,7 +41,7 @@
 
     {{-- elfinder  --}}
 
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    {{-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> --}}
 
     <style>
         .notification_dropdown .dropdown-menu-right .media p {
@@ -114,7 +116,7 @@
                                     <i class="mdi mdi-magnify"></i>
                                 </span>
                                 <div>
-                                    <input id="searchInput" class="form-control" type="text" placeholder="Search...">
+                                    <input id="globalSearchInput" class="form-control data-table-search" type="text" placeholder="Search...">
                                 </div>
                             </div>
                         </div>

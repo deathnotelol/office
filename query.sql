@@ -103,6 +103,11 @@ ALTER TABLE trainingInter ADD COLUMN created_at TIMESTAMP DEFAULT CURRENT_TIMEST
 ALTER TABLE trainingOuter ADD COLUMN created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, ADD COLUMN updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
 
 
+-- ID Start to 1
 
+DELETE FROM personnel_data;
+ALTER TABLE personnel_data AUTO_INCREMENT = 1;
+
+-- value="{{ old('fromBSILetterContent', $caseList->fromBSILetterContent) }}"
 
 

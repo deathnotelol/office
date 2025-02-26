@@ -32,6 +32,7 @@
     <script src="{{asset('public/vendor/global/global.min.js')}}"></script>
     <script src="{{asset('public/js/quixnav-init.js')}}"></script>
     <script src="{{asset('public/js/custom.min.js')}}"></script>
+    <script src="{{asset('public/vendor/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
  
 
 
@@ -89,6 +90,8 @@
     <script src="{{asset('public/js/plugins-init/material-date-picker-init.js')}}"></script>
     <!-- Pickdate -->
     <script src="{{asset('public/js/plugins-init/pickadate-init.js')}}"></script>
+    <script src="{{asset('public/js/jquery.dataTables.min.js')}}"></script>
+
 
 </body>
 

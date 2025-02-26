@@ -6,6 +6,7 @@ use App\Models\CaseFile;
 use App\Models\CaseList;
 use App\Models\Department;
 use Illuminate\Http\Request;
+use App\Models\PersonnelData;
 
 class SearchController extends Controller
 {
@@ -47,5 +48,19 @@ class SearchController extends Controller
             ->get();
 
         return view('partials.caseListRaw', compact('caseLists'));
+    }
+
+    public function personnelSearch(Request $request)
+    {
+        $keyword = $request->keyword;
+
+        $personnels = PersonnelData::where('personnelId', 'LIKE', "%$keyword%")
+        ->orWhere('personnelRank', 'LIKE', "%$keyword%")
+        ->orWhere('personnelName', 'LIKE', "%$keyword%")
+        ->orWhere('currentDuty', 'LIKE', "%$keyword%")
+        ->orWhere('currentDept', 'LIKE', "%$keyword%")
+        ->get();
+
+        return view('partials.personnelRaw', compact('personnels'));
     }
 }

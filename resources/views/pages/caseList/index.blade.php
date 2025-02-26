@@ -1,7 +1,7 @@
     @include('components.layouts.header')
     @include('components.layouts.sidebar')
 
-    
+
     <div class="content-body">
         <div class="container-fluid">
             <div class="row page-titles mx-0">
@@ -105,20 +105,25 @@
                                             <th>Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="caseListTableBody">
+                                    <tbody id="caseListTableBody" class="tableBody">
                                         @foreach ($caseLists as $key => $caseList)
                                             <tr>
                                                 <td>{{ $key + 1 }}</td>
-                                                <td>{{ $caseList->caseFile ? $caseList->caseFile->fileName : 'N/A' }}</td>
+                                                <td>{{ $caseList->caseFile ? $caseList->caseFile->fileName : 'N/A' }}
+                                                </td>
                                                 <td>
-                                                    @if($caseList->status == 'Pending')
-                                                        <label class="badge bg-warning mx-1">{{ $caseList->status }}</label>
+                                                    @if ($caseList->status == 'Pending')
+                                                        <label
+                                                            class="badge bg-warning mx-1">{{ $caseList->status }}</label>
                                                     @elseif($caseList->status == 'Progress')
-                                                        <label class="badge bg-info mx-1">{{ $caseList->status }}</label>
+                                                        <label
+                                                            class="badge bg-info mx-1">{{ $caseList->status }}</label>
                                                     @elseif($caseList->status == 'Completed')
-                                                        <label class="badge bg-success mx-1">{{ $caseList->status }}</label>
+                                                        <label
+                                                            class="badge bg-success mx-1">{{ $caseList->status }}</label>
                                                     @else
-                                                        <label class="badge bg-secondary mx-1">{{ $caseList->status }}</label>
+                                                        <label
+                                                            class="badge bg-secondary mx-1">{{ $caseList->status }}</label>
                                                     @endif
                                                 </td>
                                                 <td>{{ $caseList->inLetterDate }}</td>
@@ -129,16 +134,20 @@
                                                 <td>{{ $caseList->inLetterReturnDate }}</td>
                                                 <td>{{ $caseList->caseCompletedDate }}</td>
                                                 <td>
-                                                    <div class="btn-group" role="group" aria-label="Action buttons" style="display: flex; gap: 8px; align-items: center;">
-                                                        <a class="btn btn-success" href="{{ route('caseList.show', $caseList->id) }}">View</a>
-                                                        <a class="btn btn-primary" href="{{ route('caseList.edit', $caseList->id) }}">Edit</a>
+                                                    <div class="btn-group" role="group" aria-label="Action buttons"
+                                                        style="display: flex; gap: 8px; align-items: center;">
+                                                        <a class="btn btn-success"
+                                                            href="{{ route('caseList.show', $caseList->id) }}">View</a>
+                                                        <a class="btn btn-primary"
+                                                            href="{{ route('caseList.edit', $caseList->id) }}">Edit</a>
                                                         <form
                                                             onsubmit="return confirm('Are you sure you want to delete this case list?');"
                                                             action="{{ route('caseList.destroy', $caseList->id) }}"
                                                             method="POST" style="display: inline; margin-bottom: 0;">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                                            <button type="submit"
+                                                                class="btn btn-danger">Delete</button>
                                                         </form>
                                                     </div>
                                                 </td>
@@ -165,49 +174,4 @@
         </div>
     </div>
 
-    <script>   
-         $(document).ready(function () {
-    // Trigger the AJAX call on keyup
-    $('#searchInput').on('keyup', function () {
-        var keyword = $(this).val(); // Get the value from the input box
-
-        // Make an AJAX request
-        $.ajax({
-            url: '{{ route('caseList.search') }}', // Your Laravel route for search
-            method: 'GET',
-            data: { keyword: keyword },
-            success: function (response) {
-                // Update the table body with the search results
-                $('#caseListTableBody').html(response);
-
-                // Highlight the matched text (excluding buttons)
-                if (keyword.length > 0) {
-                    $('#caseListTableBody').find('td:not(:has(button, a))').each(function () {
-                        var content = $(this).text();
-                        var highlighted = content.replace(
-                            new RegExp(keyword, 'gi'),
-                            function (match) {
-                                return `<span class="highlight">${match}</span>`;
-                            }
-                        );
-                        $(this).html(highlighted);
-                    });
-                }
-
-                // Rebind event handlers for Edit and Delete buttons
-                rebindButtonHandlers();
-            },
-            error: function (xhr) {
-                console.error('Search failed: ', xhr);
-            }
-        });
-    });
-
-    // Rebind Edit and Delete button event handlers
-    function rebindButtonHandlers() {
-        // Attach any specific logic for Edit/Delete buttons if necessary
-        console.log("Event handlers reattached.");
-    }
-});
-    </script>
     @include('components.layouts.footer')

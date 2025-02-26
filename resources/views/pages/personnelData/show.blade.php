@@ -16,8 +16,8 @@
 
             #print-section {
                 position: absolute;
-                top: 1;
-                left: 1;
+                top: 1in;
+                left: 1in;
                 width: 100%;
             }
         }
@@ -29,679 +29,422 @@
         <div class="row page-titles mx-0">
             <div class="col-sm-12 p-md-0">
                 <div class="welcome-text text-center">
-                    <h2 class="font-weight-bold">{{ $caseList->inLetterContent }}
-                    </h2>
+                    <h2 class="font-weight-bold mb-3">ပြည်ထဲရေးဝန်ကြီးဌာန</h2>
+                    <h2 class="font-weight-bold">ဝန်ထမ်း၏ ကိုယ်ရေးအချက်အလက်</h2>
                 </div>
             </div>
         </div>
+
+        {{-- အခြေခံအချက်အလက် --}}
         <div class="card">
-            <div>
-                <p class="p-2" style="font-size: 18px">
-                    <strong>အမှုတွဲလက်ရှိအခြေအနေ</strong>
-                    @if ($caseList->status == 'Pending')
-                        <label class="badge bg-warning mx-3 p-2">{{ $caseList->status }}</label>
-                    @elseif($caseList->status == 'Progress')
-                        <label class="badge bg-info mx-3 p-2">{{ $caseList->status }}</label>
-                    @elseif($caseList->status == 'Completed')
-                        <label class="badge bg-success mx-3 p-2">{{ $caseList->status }}</label>
-                    @else
-                        <label class="badge bg-secondary mx-3 p-2">{{ $caseList->status }}</label>
-                    @endif
-                </p>
+            <div class="card-body text-dark text-wrap text-lg" style="background-color: #b6ddf1">
+                <div class="mb-3 text-end">
+                    <img src="{{ asset('public/' . $personnels->profileImage) }}" alt="ProfileImage" width="144px"
+                        height="168px">
+                </div>
+                <div class="row">
+                    <div class="col-5">
+                        <p style="font-size: 1.2rem">ကိုယ်ပိုင်အမှတ် −</p>
+                    </div>
+                    <div class="col-7">
+                        <p style="font-size: 1.2rem"><strong>{{ $personnels->personnelId }}</strong></p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-5">
+                        <p style="font-size: 1.2rem">အဆင့် −</p>
+                    </div>
+                    <div class="col-7">
+                        <p style="font-size: 1.2rem"><strong>{{ $personnels->personnelRank }}</strong></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-5">
+                        <p style="font-size: 1.2rem">အမည် −</p>
+                    </div>
+                    <div class="col-7">
+                        <p style="font-size: 1.2rem"><strong>{{ $personnels->personnelName }}</strong></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-5">
+                        <p style="font-size: 1.2rem">အဆင့်ရရက်စွဲ −</p>
+                    </div>
+                    <div class="col-7">
+                        <p style="font-size: 1.2rem">
+                            <strong>{{ formatDateToMyanmarNumbers($personnels->getRankDate) }}</strong>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-5">
+                        <p style="font-size: 1.2rem">လက်ရှိတာဝန် −</p>
+                    </div>
+                    <div class="col-7">
+                        <p style="font-size: 1.2rem"><strong>{{ $personnels->currentDuty }}</strong></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-5">
+                        <p style="font-size: 1.2rem">လက်ရှိတပ်ဖွဲ့/ဌာန −</p>
+                    </div>
+                    <div class="col-7">
+                        <p style="font-size: 1.2rem"><strong>{{ $personnels->currentDept }}</strong></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-5">
+                        <p style="font-size: 1.2rem">တပ်ဖွဲ့/ဌာနရောက်ရက်စွဲ −</p>
+                    </div>
+                    <div class="col-7">
+                        <p style="font-size: 1.2rem">
+                            <strong>{{ formatDateToMyanmarNumbers($personnels->deptArrivelDate) }}</strong>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-5">
+                        <p style="font-size: 1.2rem">လူမျိုး/ဘာသာ −</p>
+                    </div>
+                    <div class="col-7">
+                        <p style="font-size: 1.2rem"><strong>{{ $personnels->nation }}</strong> /
+                            <strong>{{ $personnels->religion }}</strong>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-5">
+                        <p style="font-size: 1.2rem">နိုင်ငံသားစိစစ်ရေးကတ်အမှတ် −</p>
+                    </div>
+                    <div class="col-7">
+                        <p style="font-size: 1.2rem"><strong>{{ $personnels->nationalId }}</strong></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-5">
+                        <p style="font-size: 1.2rem">ပြန်တမ်းဝင်ရက်စွဲ −</p>
+                    </div>
+                    <div class="col-7">
+                        <p style="font-size: 1.2rem">
+                            @if ($personnels->gazettedDate)
+                                <strong>{{ $personnels->gazettedDate }}</strong>
+                            @else
+                                <strong>မရှိပါ</strong>
+                            @endif
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-5">
+                        <p style="font-size: 1.2rem">ပညာအရည်အချင်း −</p>
+                    </div>
+                    <div class="col-7">
+                        <p style="font-size: 1.2rem"><strong>{{ $personnels->education }}</strong></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-5">
+                        <p style="font-size: 1.2rem">မွေးသက္ကရာဇ်နှင့်ဇာတိ −</p>
+                    </div>
+                    <div class="col-7">
+                        <p style="font-size: 1.2rem">
+                            <strong>{{ formatDateToMyanmarNumbers($personnels->dateOfBirth) }}</strong>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-5">
+                        <p style="font-size: 1.2rem">အဘအမည်(လူမျိုး/ဘာသာ) −</p>
+                    </div>
+                    <div class="col-7">
+                        <p style="font-size: 1.2rem"><strong>{{ $personnels->fatherNameAndNationAndReligion }}</strong>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-5">
+                        <p style="font-size: 1.2rem">အမိအမည်(လူမျိုး/ဘာသာ) −</p>
+                    </div>
+                    <div class="col-7">
+                        <p style="font-size: 1.2rem"><strong>{{ $personnels->motherNameAndNationAndReligion }}</strong>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-5">
+                        <p style="font-size: 1.2rem">အရာရှိလောင်းသင်တန်း −</p>
+                    </div>
+                    <div class="col-7">
+                        <p style="font-size: 1.2rem"><strong>{{ $personnels->candidateOfficerTraining }}</strong></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-5">
+                        <p style="font-size: 1.2rem">ယခင်အလုပ်အကိုင် −</p>
+                    </div>
+                    <div class="col-7">
+                        <p style="font-size: 1.2rem"><strong>{{ $personnels->previousOccupation }}</strong></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-5">
+                        <p style="font-size: 1.2rem">အရပ်အမြင့် −</p>
+                    </div>
+                    <div class="col-7">
+                        <p style="font-size: 1.2rem"><strong>{{ $personnels->height }}</strong></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-5">
+                        <p style="font-size: 1.2rem">တပ်ဝင်ရက်စွဲ −</p>
+                    </div>
+                    <div class="col-7">
+                        <p style="font-size: 1.2rem">
+                            <strong>{{ formatDateToMyanmarNumbers($personnels->dateOfEnlistment) }}</strong>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-5">
+                        <p style="font-size: 1.2rem">အိမ်ထောင်ရှိ/ မရှိ −</p>
+                    </div>
+                    <div class="col-7">
+                        <p style="font-size: 1.2rem"><strong>{{ $personnels->maritalStatus }}</strong></p>
+                    </div>
+                </div>
             </div>
+        </div>
+
+        {{-- တပ်မတော်သား(သို့မဟုတ်) အခြားဝန်ကြီးဌာန/အဖွဲ့အစည်းမှ ကူးပြောင်းလာပါက --}}
+        <div class="card">
             <div class="card-header">
-                <h3 class="font-weight-bold">၁။&emsp;&emsp;ဝင်စာစတင်သည့်အခြေအနေများ</h3>
+                <h5 class="font-weight-bold">တပ်မတော်သား(သို့မဟုတ်) အခြားဝန်ကြီးဌာန/ အဖွဲ့အစည်းမှ ကူးပြောင်းလာပါက</h5>
             </div>
             <div class="card-body text-dark text-wrap text-lg" style="background-color: #b6ddf1">
-                <div class="row">
-                    <div class="col-5">
-                        <p style="font-size: 1.2rem">
-                            ဖိုင်အမည် −
-                        </p>
-                    </div>
-                    <div class="col-7">
-                        <p style="font-size: 1.2rem">
-                            <strong> {{ $caseList->caseFile->fileName }} </strong>
-                        </p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-5">
-                        <p style="font-size: 1.2rem">
-                            ဝင်စာဝင်သည့်နေ့ −
-                        </p>
-                    </div>
-                    <div class="col-7">
-                        <p style="font-size: 1.2rem">
-                            <strong> {{ $caseList->inLetterDate }} </strong>
-                        </p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-5">
-                        <p style="font-size: 1.2rem">
-                            စာအမှတ် −
-                        </p>
-                    </div>
-                    <div class="col-7">
-                        <p style="font-size: 1.2rem">
-                            <strong> {{ $caseList->inLetterNumber }} </strong>
-                        </p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-5">
-                        <p style="font-size: 1.2rem">
-                            စာပေးပို့သည့်ဌာန −
-                        </p>
-                    </div>
-                    <div class="col-7">
-                        <p style="font-size: 1.2rem">
-                            <strong> {{ $caseList->fromDeptName }} </strong>
-                        </p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-5">
-                        <p style="font-size: 1.2rem">
-                            အကြောင်းအရာ −
-                        </p>
-                    </div>
-                    <div class="col-7">
-                        <p style="font-size: 1.2rem">
-                            <strong> {{ $caseList->inLetterContent }} </strong>
-                        </p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-5">
-                        <p style="font-size: 1.2rem">
-                            ဝင်စာပါမှတ်ချက် −
-                        </p>
-                    </div>
-                    <div class="col-7">
-                        <p style="font-size: 1.2rem">
-                            <strong> {{ $caseList->inLetterRemark }} </strong>
-                        </p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-5">
-                        <p style="font-size: 1.2rem">
-                            ဒုတိယအမြဲတမ်းအတွင်းဝန် ရုံးအဖွဲ့သို့တင်ပြသည့်နေ့ −
-                        </p>
-                    </div>
-                    <div class="col-7">
-                        <p style="font-size: 1.2rem">
-                            <strong> {{ $caseList->inLetterToDps }} </strong>
-                        </p>
-                    </div>
-                </div>
+                <table class="table table-bordered table-hover text-wrap text-center">
+                    <thead class="thead-primary">
+                        <tr>
+                            <th>စဉ်</th>
+                            <th>ကိုယ်ပိုင်အမှတ်</th>
+                            <th>ဗိုလ်လောင်းသင်တန်းအမှတ်စဉ်</th>
+                            <th>တပ်ထွက်သည့် အကြောင်းအရာ</th>
+                            <th>တာဝန်ထမ်းဆောင်ခဲ့သည့်တပ်များ</th>
+                            <th>ပြစ်မှု/ပြစ်ဒဏ် (ရှိလျင်)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($personnels->military as $personnel)
+                            <tr>
+                                <td>{{ $personnel->srcNo }}</td>
+                                <td>{{ $personnel->personalNo }}</td>
+                                <td>
+                                    @if ($personnel->cadetTrainingNo)
+                                        {{ $personnel->cadetTrainingNo }}
+                                    @else
+                                        မရှိပါ
+                                    @endif
+                                </td>
+                                <td>{{ $personnel->outOfReason }}</td>
+                                <td>{{ $personnel->servedArmies }}</td>
+                                <td>{{ $personnel->caseAndPunishment }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
+        </div>
 
-            <div class="card-header">
-                <h3 class="font-weight-bold">၂။&emsp;&emsp;ဝင်စာပြန်ကျသည့်အခြေအနေ</h3>
+        {{-- ဇနီးဆိုင်ရာအချက်အလက် --}}
+        <div class="card">
+            <div class="welcome-text text-center">
+                <h4 class="font-weight-bold my-3">ဇနီးဆိုင်ရာအချက်အလက်</h4>
             </div>
-            <div class="card-body text-dark text-wrap text-lg" style="background-color: #d4f2fa">
+            <div class="card-body text-dark text-wrap text-lg" style="background-color: #b6ddf1">
+                @if ($personnels->wifeName)
+                    <div class="row">
+                        <div class="col-5">
+                            <p style="font-size: 1.2rem">အမည် −</p>
+                        </div>
+                        <div class="col-7">
+                            <p style="font-size: 1.2rem"><strong>{{ $personnels->wifeName }}</strong></p>
+                        </div>
+                    </div>
+                @else
+                    မရှိပါ
+                @endif
                 <div class="row">
                     <div class="col-5">
-                        <p style="font-size: 1.2rem">
-                            ဝင်စာပြန်ကျသည့်နေ့ရက် −
-                        </p>
+                        <p style="font-size: 1.2rem">လူမျိုး/ဘာသာ −</p>
                     </div>
                     <div class="col-7">
-                        <p style="font-size: 1.2rem">
-                            <strong> {{ $caseList->inLetterReturnDate }} </strong>
-                        </p>
+                        <p style="font-size: 1.2rem"><strong>{{ $personnels->wifeNationAndReligion }}</strong></p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-5">
-                        <p style="font-size: 1.2rem">
-                            ဒုတိယအမြဲတမ်းအတွင်းဝန် မှတ်ချက် −
-                        </p>
+                        <p style="font-size: 1.2rem">မွေးသက္ကရာဇ်နှင့်ဇာတိ −</p>
                     </div>
                     <div class="col-7">
                         <p style="font-size: 1.2rem">
-                            <strong> {{ $caseList->dpsRemark }} </strong>
-                        </p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-5">
-                        <p style="font-size: 1.2rem">
-                            အမြဲတမ်းအတွင်းဝန် မှတ်ချက် −
-                        </p>
-                    </div>
-                    <div class="col-7">
-                        <p style="font-size: 1.2rem">
-                            <strong> {{ $caseList->psRemark }} </strong>
+                            <strong>{{ formatDateToMyanmarNumbers($personnels->wifeDobAndPlace) }}</strong>
                         </p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-5">
-                        <p style="font-size: 1.2rem">
-                            ဒုတိယဝန်ကြီး မှတ်ချက် −
-                        </p>
+                        <p style="font-size: 1.2rem">နိုင်ငံသားစိစစ်ရေးကတ် −</p>
                     </div>
                     <div class="col-7">
-                        <p style="font-size: 1.2rem">
-                            <strong> {{ $caseList->dmRemark }} </strong>
-                        </p>
+                        <p style="font-size: 1.2rem"><strong>{{ $personnels->wifeNRCNo }}</strong></p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-5">
-                        <p style="font-size: 1.2rem">
-                            ပြည်ထောင်စုဝန်ကြီး မှတ်ချက် −
-                        </p>
+                        <p style="font-size: 1.2rem">ပညာအရည်အချင်း −</p>
                     </div>
                     <div class="col-7">
-                        <p style="font-size: 1.2rem">
-                            <strong> {{ $caseList->umRemark }} </strong>
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card-header">
-                <h3 class="font-weight-bold">၃။&emsp;&emsp;ပြန်ကျလာသည့်စာအပေါ် ဆောင်ရွက်ချက်
-                    (လက်အောက်ဌာနများသို့စာထွက်ခြင်း (သို့မဟုတ်) မှတ်တမ်းထားရှိခြင်း)</h3>
-            </div>
-            <div class="card-body text-dark text-wrap text-lg" style="background-color: #c3fbf2">
-                <div class="row">
-                    <div class="col-5">
-                        <p style="font-size: 1.2rem">
-                            လက်အောက်ဌာနများသို့ စာထွက်သည့်နေ့ −
-                        </p>
-                    </div>
-                    <div class="col-7">
-                        <p style="font-size: 1.2rem">
-                            <strong> {{ $caseList->outLetterDate }} </strong>
-                        </p>
+                        <p style="font-size: 1.2rem"><strong>{{ $personnels->wifeEducation }}</strong></p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-5">
-                        <p style="font-size: 1.2rem">
-                            အကြောင်းအရာ −
-                        </p>
+                        <p style="font-size: 1.2rem">အလုပ်အကိုင် −</p>
                     </div>
                     <div class="col-7">
-                        <p style="font-size: 1.2rem">
-                            <strong> {{ $caseList->outLetterContent }} </strong>
-                        </p>
+                        <p style="font-size: 1.2rem"><strong>{{ $personnels->wifeOccupation }}</strong></p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-5">
-                        <p style="font-size: 1.2rem">
-                            စာအမှတ် −
-                        </p>
+                        <p style="font-size: 1.2rem">အဘအမည် −</p>
                     </div>
                     <div class="col-7">
-                        <p style="font-size: 1.2rem">
-                            <strong> {{ $caseList->outLetterNumber }} </strong>
-                        </p>
+                        <p style="font-size: 1.2rem"><strong>{{ $personnels->wifeFatherName }}</strong></p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-5">
-                        <p style="font-size: 1.2rem">
-                            ပေးပို့ဌာန −
-                        </p>
+                        <p style="font-size: 1.2rem">လူမျိုး/ ဘာသာ −</p>
                     </div>
                     <div class="col-7">
-                        <p style="font-size: 1.2rem">
-                            <strong>
-                                @if (is_array($childDepartments) && !empty($childDepartments))
-                                    @foreach ($childDepartments as $dept)
-                                        <span class="badge bg-info p-3">{{ $dept }}</span>
-                                    @endforeach
-                                @else
-                                    <span class="badge bg-secondary">No departments assigned</span>
-                                @endif
-                            </strong>
-                        </p>
+                        <p style="font-size: 1.2rem"><strong>{{ $personnels->fatherNationAdnReligion }}</strong></p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-5">
-                        <p style="font-size: 1.2rem">
-                            အရောက်တောင်းသည့်နေ့ရက် −
-                        </p>
+                        <p style="font-size: 1.2rem">အမိအမည် −</p>
                     </div>
                     <div class="col-7">
-                        <p style="font-size: 1.2rem">
-                            <strong> {{ $caseList->deadlineDate }} </strong>
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="pt-3" style="background-color: rgb(232, 247, 173)">
-                <div class="row">
-                    <div class="col-5">
-                        <p class="ml-3" style="font-size: 1.2rem; color: red;">
-                            အခြားဆောင်ရွက်ထားရှိမှု −
-                        </p>
-                    </div>
-                    <div class="col-7">
-                        <p style="font-size: 1.2rem">
-                            <strong> {{ $caseList->otherAction }} </strong>
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card-header">
-                <h3 class="font-weight-bold">၄။&emsp;&emsp;လက်အောက်ဌာနများမှ ပြန်လည်တင်ပြလာမှုအခြေအနေနှင့်
-                    ဆောင်ရွက်ထားရှိမှု</h3>
-            </div>
-            <div class="card-body text-dark text-wrap text-lg" style="background-color: #9affdd">
-                <div>
-                    <h4 class="text-primary font-weight-bold">မြန်မာနိုင်ငံရဲတပ်ဖွဲ့</h4>
-                </div>
-                <div class="row">
-                    <div class="col-5">
-                        <p style="font-size: 1.2rem">ရက်စွဲ − </p>
-                    </div>
-                    <div class="col-7">
-                        <p style="font-size: 1.2rem">
-                            <strong>{{ $caseList->fromMPFReturnDate }}</strong>
-                        </p>
+                        <p style="font-size: 1.2rem"><strong>{{ $personnels->wifeMotherName }}</strong></p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-5">
-                        <p style="font-size: 1.2rem">စာအမှတ် − </p>
+                        <p style="font-size: 1.2rem">လူမျိုး/ဘာသာ −</p>
                     </div>
                     <div class="col-7">
-                        <p style="font-size: 1.2rem">
-                            <strong>{{ $caseList->fromMPFLetterNumber }}</strong>
-                        </p>
+                        <p style="font-size: 1.2rem"><strong>{{ $personnels->motherNationAdnReligion }}</strong></p>
                     </div>
+                </div>
+                <div class="welcome-text text-center ">
+                    <h4 class="font-weight-bold my-3">အမွေစား/ အမွေခံ</h4>
+                </div>
+                <div class="row">
+                    <table class="table table-bordered table-hover text-wrap text-center">
+                        <thead class="thead-primary">
+                            <tr>
+                                <th>စဉ်</th>
+                                <th>အမည်</th>
+                                <th>တော်စပ်ပုံ</th>
+                                <th>နေရပ်လိပ်စာ</th>
+                                <th>မှတ်ချက်</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($personnels->inheritance as $inheri)
+                                <tr>
+                                    <td>{{ $inheri->inheriNo }}</td>
+                                    <td>
+                                        @if ($inheri->inheriName)
+                                            {{ $inheri->inheriName }}
+                                        @else
+                                            မရှိပါ
+                                        @endif
+                                    </td>
+                                    <td>{{ $inheri->inheriRelation }}</td>
+                                    <td>{{ $inheri->inheriAddress }}</td>
+                                    <td>{{ $inheri->inheriRemark }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <div class="welcome-text text-start">
+                    <h4 class="font-weight-bold my-3">သား/သမီး</h4>
+                </div>
+                <div class="row">
+                    <table class="table table-bordered table-hover text-wrap text-center">
+                        <thead class="thead-primary">
+                            <tr>
+                                <th>စဉ်</th>
+                                <th>အမည်</th>
+                                <th>မွေးသက္ကရာဇ်/အသက်</th>
+                                <th>အလုပ်အကိုင်</th>
+                                <th>နေရပ်လိပ်စာ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($personnels->children as $child)
+                                <tr>
+                                    <td>{{ $child->childNo }}</td>
+                                    <td>
+                                        @if ($child->childName)
+                                            {{ $child->childName }}
+                                        @else
+                                            မရှိပါ
+                                        @endif
+                                    </td>
+                                    <td>{{ formatDateToMyanmarNumbers($child->childDob) }} <br> {{ $child->childAge }}
+                                    </td>
+                                    <td>{{ $child->childOccupation }}</td>
+                                    <td>{{ $child->childAddress }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
                 <div class="row">
                     <div class="col-5">
-                        <p style="font-size: 1.2rem">အကြောင်းအရာ − </p>
+                        <p style="font-size: 1.2rem"><b>ဘွဲထူး/ဂုဏ်ထူး/တံဆိပ် −</b></p>
                     </div>
                     <div class="col-7">
-                        <p style="font-size: 1.2rem">
-                            <strong>{{ $caseList->fromMPFLetterContent }}</strong>
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card-body P-0 text-dark text-wrap text-lg" style="background-color: #9affdd">
-                <div>
-                    <h4 class="text-primary font-weight-bold">အထွေထွေအုပ်ချုပ်ရေးဦးစီးဌာန</h4>
-                </div>
-                <div class="row">
-                    <div class="col-5">
-                        <p style="font-size: 1.2rem">ရက်စွဲ − </p>
-                    </div>
-                    <div class="col-7">
-                        <p style="font-size: 1.2rem">
-                            <strong>{{ $caseList->fromGADReturnDate }}</strong>
-                        </p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-5">
-                        <p style="font-size: 1.2rem">စာအမှတ် − </p>
-                    </div>
-                    <div class="col-7">
-                        <p style="font-size: 1.2rem">
-                            <strong>{{ $caseList->fromGADLetterNumber }}</strong>
-                        </p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-5">
-                        <p style="font-size: 1.2rem">အကြောင်းအရာ − </p>
-                    </div>
-                    <div class="col-7">
-                        <p style="font-size: 1.2rem">
-                            <strong>{{ $caseList->fromGADLetterContent }}</strong>
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card-body P-0 text-dark text-wrap text-lg" style="background-color: #9affdd">
-                <div>
-                    <h4 class="text-primary font-weight-bold">အထူးစုံစမ်းစစ်ဆေးရေးဦးစီးဌာန</h4>
-                </div>
-                <div class="row">
-                    <div class="col-5">
-                        <p style="font-size: 1.2rem">ရက်စွဲ − </p>
-                    </div>
-                    <div class="col-7">
-                        <p style="font-size: 1.2rem">
-                            <strong>{{ $caseList->fromBSIReturnDate }}</strong>
-                        </p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-5">
-                        <p style="font-size: 1.2rem">စာအမှတ် − </p>
-                    </div>
-                    <div class="col-7">
-                        <p style="font-size: 1.2rem">
-                            <strong>{{ $caseList->fromBSILetterNumber }}</strong>
-                        </p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-5">
-                        <p style="font-size: 1.2rem">အကြောင်းအရာ − </p>
-                    </div>
-                    <div class="col-7">
-                        <p style="font-size: 1.2rem">
-                            <strong>{{ $caseList->fromBSILetterContent }}</strong>
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card-body P-0 text-dark text-wrap text-lg" style="background-color: #9affdd">
-                <div>
-                    <h4 class="text-primary font-weight-bold">အကျဉ်းဦးစီးဌာန</h4>
-                </div>
-                <div class="row">
-                    <div class="col-5">
-                        <p style="font-size: 1.2rem">ရက်စွဲ − </p>
-                    </div>
-                    <div class="col-7">
-                        <p style="font-size: 1.2rem">
-                            <strong>{{ $caseList->fromPDReturnDate }}</strong>
-                        </p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-5">
-                        <p style="font-size: 1.2rem">စာအမှတ် − </p>
-                    </div>
-                    <div class="col-7">
-                        <p style="font-size: 1.2rem">
-                            <strong>{{ $caseList->fromPDLetterNumber }}</strong>
-                        </p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-5">
-                        <p style="font-size: 1.2rem">အကြောင်းအရာ − </p>
-                    </div>
-                    <div class="col-7">
-                        <p style="font-size: 1.2rem">
-                            <strong>{{ $caseList->fromPDLetterContent }}</strong>
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card-body P-0 text-dark text-wrap text-lg" style="background-color: #9affdd">
-                <div>
-                    <h4 class="text-primary font-weight-bold">မီးသတ်ဦးစီးဌာန</h4>
-                </div>
-                <div class="row">
-                    <div class="col-5">
-                        <p style="font-size: 1.2rem">ရက်စွဲ − </p>
-                    </div>
-                    <div class="col-7">
-                        <p style="font-size: 1.2rem">
-                            <strong>{{ $caseList->fromFSDReturnDate }}</strong>
-                        </p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-5">
-                        <p style="font-size: 1.2rem">စာအမှတ် − </p>
-                    </div>
-                    <div class="col-7">
-                        <p style="font-size: 1.2rem">
-                            <strong>{{ $caseList->fromFSDLetterNumber }}</strong>
-                        </p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-5">
-                        <p style="font-size: 1.2rem">အကြောင်းအရာ − </p>
-                    </div>
-                    <div class="col-7">
-                        <p style="font-size: 1.2rem">
-                            <strong>{{ $caseList->fromFSDLetterContent }}</strong>
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="pt-3" style="background-color: rgb(232, 247, 173)">
-                <div class="row">
-                    <div class="col-5">
-                        <p class="ml-3" style="font-size: 1.2rem; color: red;">အခြားဆောင်ရွက်ထားရှိမှု − </p>
-                    </div>
-                    <div class="col-7">
-                        <p style="font-size: 1.2rem">
-                            <strong>{{ $caseList->otherAction }}</strong>
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card-header">
-                <h3 class="font-weight-bold">၅။&emsp;&emsp;လက်အောက်ဌာနများမှ တင်ပြလာသောစာများအား
-                    ဆက်လက်ဆောင်ရွက်ထားရှိမှုအခြေအနေ</h3>
-            </div>
-            <div class="card-body text-dark text-wrap text-lg" style="background-color: #bbf1af">
-                <div class="row">
-                    <div class="col-5">
-                        <p style="font-size: 1.2rem">
-                            လက်အောက်မှဝင်စာများ စုစည်းတင်ပြသည့်နေ့ −
-                        </p>
-                    </div>
-                    <div class="col-7">
-                        <p style="font-size: 1.2rem">
-                            <strong> {{ $caseList->processToDps }} </strong>
-                        </p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-5">
-                        <p style="font-size: 1.2rem">
-                            တင်ပြသည့်အမှုတွဲတွင် ရေးသားသည့်မှတ်ချက် −
-                        </p>
-                    </div>
-                    <div class="col-7">
-                        <p style="font-size: 1.2rem">
-                            <strong> {{ $caseList->processCaseRemark }} </strong>
-                        </p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-5">
-                        <p style="font-size: 1.2rem">
-                            တင်ပြခဲ့သည့်အမှုတွဲ ပြန်ကျသည့်နေ့ရက် −
-                        </p>
-                    </div>
-                    <div class="col-7">
-                        <p style="font-size: 1.2rem">
-                            <strong> {{ $caseList->processReturnDate }} </strong>
-                        </p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-5">
-                        <p style="font-size: 1.2rem">
-                            ဒုတိယအမြဲတမ်းအတွင်းဝန် မှတ်ချက် −
-                        </p>
-                    </div>
-                    <div class="col-7">
-                        <p style="font-size: 1.2rem">
-                            <strong> {{ $caseList->processCaseDpsRemark }} </strong>
-                        </p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-5">
-                        <p style="font-size: 1.2rem">
-                            အမြဲတမ်းအတွင်းဝန် မှတ်ချက် −
-                        </p>
-                    </div>
-                    <div class="col-7">
-                        <p style="font-size: 1.2rem">
-                            <strong> {{ $caseList->processCasePsRemark }} </strong>
-                        </p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-5">
-                        <p style="font-size: 1.2rem">
-                            ဒုတိယဝန်ကြီး မှတ်ချက် −
-                        </p>
-                    </div>
-                    <div class="col-7">
-                        <p style="font-size: 1.2rem">
-                            <strong> {{ $caseList->processCaseDmRemark }} </strong>
-                        </p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-5">
-                        <p style="font-size: 1.2rem">
-                            ပြည်ထောင်စုဝန်ကြီး မှတ်ချက် −
-                        </p>
-                    </div>
-                    <div class="col-7">
-                        <p style="font-size: 1.2rem">
-                            <strong> {{ $caseList->processCaseUmRemark }} </strong>
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card-header">
-                <h3 class="font-weight-bold">၆။&emsp;&emsp;ပြန်ကျလာသော အမှုတွဲအား ဆက်လက်ဆောင်ရွက်ထားရှိမှု</h3>
-            </div>
-            <div class="card-body text-dark text-wrap text-lg" style="background-color: #87d076">
-                <div class="row">
-                    <div class="col-5">
-                        <p style="font-size: 1.2rem">
-                            သက်ဆိုင်ရာ ဝန်ကြီးဌာန/အဖွဲ့အစည်း၊ တပ်ဖွဲ့/ ဦးစီးဌာနသို့ စာထွက်သည့်နေ့ −
-                        </p>
-                    </div>
-                    <div class="col-7">
-                        <p style="font-size: 1.2rem">
-                            <strong> {{ $caseList->toRelevantDeptOutLetterDate }} </strong>
-                        </p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-5">
-                        <p style="font-size: 1.2rem">
-                            ထွက်စာနံပါတ် −
-                        </p>
-                    </div>
-                    <div class="col-7">
-                        <p style="font-size: 1.2rem">
-                            <strong> {{ $caseList->letterNumberOfRelevantDept }} </strong>
-                        </p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-5">
-                        <p style="font-size: 1.2rem">
-                            အကြောင်းအရာ −
-                        </p>
-                    </div>
-                    <div class="col-7">
-                        <p style="font-size: 1.2rem">
-                            <strong> {{ $caseList->letterContentOfRelevantDept }} </strong>
-                        </p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-5">
-                        <p style="font-size: 1.2rem">
-                            စာပေးပို့သည့်ဌာန −
-                        </p>
-                    </div>
-                    <div class="col-7">
-                        <p style="font-size: 1.2rem">
-                            <strong> {{ $caseList->toRelevantDeptName }} </strong>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="pt-3" style="background-color: rgb(232, 247, 173)">
-                <div class="row">
-                    <div class="col-5">
-                        <p class="ml-3" style="font-size: 1.2rem; color: red;">အခြားဆောင်ရွက်ထားရှိမှု − </p>
-                    </div>
-                    <div class="col-7">
-                        <p style="font-size: 1.2rem">
-                            <strong>{{ $caseList->otherAction }}</strong>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="pt-3" style="background-color: #87d076">
-                <div class="row">
-                    <div class="col-5">
-                        <p class="ml-3" style="font-size: 1.2rem">အမှုတွဲနောက်ဆုံး ပြီးပြတ်သည့်နေ့ရက် − </p>
-                    </div>
-                    <div class="col-7">
-                        <p style="font-size: 1.2rem">
-                            <strong> <span class="bg-primary p-2 text-white">
-                                    {{ $caseList->caseCompletedDate }}</span></strong>
-                        </p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-5">
-                        <p class="ml-3" style="font-size: 1.2rem">အမှုတွဲဖိုင်ကြည့်ရန် − </p>
-                    </div>
-                    {{-- <div class="col-7">
-                        <p style="font-size: 1.2rem">
-                            <strong>
-
-                                @if (!empty($relatedCaseFiles))
-                                    @foreach ($relatedCaseFiles as $file)
-                                        <a href="{{ asset('public/storage/' . $file) }}" target="_blank"
-                                            class="badge bg-primary text-white text-decoration-none">
-                                            {{ basename($file) }}
-                                        </a>
-                                    @endforeach
-                                @else
-                                    <span class="badge bg-secondary">No related case files</span>
-                                @endif
-                            </strong>
-                        </p>
-                    </div> --}}
-                    <div class="col-7">
-                        <p style="font-size: 1.2rem">
-                            <strong>
-                                @if (!empty($relatedCaseFiles) && is_array($relatedCaseFiles))
-                                    @foreach ($relatedCaseFiles as $file)
-                                        <a href="{{ asset('public/storage/' . $file) }}" target="_blank" class="d-flex align-items-center text-decoration-none m-1 gap-1">
-                                            <img src="{{ asset('public/images/pdf-icon.png') }}" alt="PDF" width="30" height="30" class="me-2">
-                                            <span class="badge bg-primary text-white ml-1">{{ basename($file) }}</span>
-                                        </a>
-                                    @endforeach
-                                @else
-                                    <span class="badge bg-secondary">No related case files</span>
-                                @endif
-                            </strong>
-                        </p>
+                        @foreach ($personnels->medals as $medal)
+                            <div class="row mb-2"> <!-- Add margin-bottom for spacing -->
+                                <div class="col-2"> <!-- Adjust width -->
+                                    <p style="font-size: 1.2rem"><strong>{{ $medal->medalNo }}</strong></p>
+                                </div>
+                                <div class="col-10"> <!-- Adjust width -->
+                                    @if ($medal->medalName)
+                                        <p style="font-size: 1.2rem"><strong>{{ $medal->medalName }}</strong></p>
+                                    @else
+                                        <p style="font-size: 1.2rem">မရှိပါ</p>
+                                    @endif
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
         </div>
+
+
+
+
+
+
         <div class="d-flex justify-content-between mb-5">
-            <a href="{{ route('caseList.index') }}" class="btn btn-primary btn-lg">Back to List</a>
+            <a href="{{ route('personnel.index') }}" class="btn btn-primary btn-lg">Back to List</a>
             <button onclick="exportAndPrint()" class="btn btn-success btn-lg">ExportAndPrint</button>
         </div>
     </div>

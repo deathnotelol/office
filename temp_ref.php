@@ -91,6 +91,7 @@ class CaseList extends Model
         'height', //အရပ်အမြင့်
         'dateOfEnlistment', //တပ်ဝင်ရက်စွဲ
         'maritalStatus', //အိမ်ထောင်ရှိ/ မရှိ
+        'profileImage', //ဓာတ်ပုံ
 
         //တပ်မတော်သား(သို့မဟုတ်) အခြားဝန်ကြီးဌာန/ အဖွဲ့အစည်းမှ ကူးပြောင်းလာပါက
         'srcNo[]', //စဉ်
@@ -167,5 +168,13 @@ class CaseList extends Model
 
     ];
 }
+
+
+
+
+
+
+
+
 
 

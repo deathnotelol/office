@@ -184,6 +184,7 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/case-files/search', [SearchController::class, 'caseFileSearch'])->name('caseFile.search');
 Route::get('/department/search', [SearchController::class, 'departmentSearch'])->name('department.search');
 Route::get('/case-list/search', [SearchController::class, 'caseListSearch'])->name('caseList.search');
+Route::get('/personnel/search', [SearchController::class, 'personnelSearch'])->name('personnel.search');
 
 
 //File Manager

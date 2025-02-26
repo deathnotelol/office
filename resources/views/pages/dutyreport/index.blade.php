@@ -154,7 +154,7 @@
                                         <th>Action</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody class="tableBody">
                                     @forelse($reports as $key => $report)
                                         <tr>
                                             <th>{{ $key + 1 }}</th>

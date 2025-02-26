@@ -16,15 +16,6 @@
                 <a class="btn btn-primary p-3 mb-2 text-white" href="{{ route('personnel.create') }}">
                     ကိုယ်ရေးအချက်အလက်ဖြည့်သွင်းရန်
                 </a>
-                {{-- @if ($personnels->total() > 0)
-                    <div class="pagination-summery">
-                        <p>
-                            Showing <strong>{{ $personnels->firstItem() }}</strong> to
-                            <strong>{{ $personnels->lastItem() }}</strong> of <strong>{{ $personnels->total() }}</strong>
-                            results.
-                        </p>
-                    </div>
-                @endif --}}
             </div>
 
             <div>
@@ -89,7 +80,7 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered table-hover text-wrap text-center">
+                                <table class="table table-bordered table-hover text-wrap text-center" id="personnelTableBody" >
                                     <thead class="thead-primary">
                                         <tr>
                                             <th>စဉ်</th>
@@ -102,88 +93,70 @@
                                             <th>Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="caseListTableBody">
-                                        {{-- @foreach ($personnels as $key => $personnel) --}}
+                                    <tbody class="tableBody">
+                                        @foreach ($personnels as $key => $personnel)
                                             <tr>
-                                                <td>၁</td>
-                                                <td>Image</td>
-                                                <td>ထ/၁၄၅၁၇၈</td>
-                                                <td>ရုံးအုပ်</td>
-                                                <td>စောနေလင်းထက်</td>
-                                                <td>အမှုတွဲကိုင်</td>
-                                                <td>e-Government ဌာန</td>
+                                                <td>{{ $key + 1 }}</td>
+                                                <td><img src="{{ asset('public/' . $personnel->profileImage) }}" alt="profileImage" width="100px" height="100px"></td>
+                                                <td>{{ $personnel->personnelId }}</td>
+                                                <td>{{ $personnel->personnelRank }}</td>
+                                                <td>{{ $personnel->personnelName }}</td>
+                                                <td>{{ $personnel->currentDuty }}</td>
+                                                <td>{{ $personnel->currentDept }}</td>
                                                 <td>
-                                                    <div class="btn-group" role="group" aria-label="Action buttons" style="display: flex; gap: 8px; align-items: center;">
-                                                        <a class="btn btn-success" href="">View</a>
-                                                        <a class="btn btn-primary" href="">Edit</a>
+                                                    <div class="btn-group" role="group" aria-label="Action buttons"
+                                                        style="display: flex; gap: 8px; align-items: center;">
+                                                        <a class="btn btn-success"
+                                                            href="{{ route('personnel.show', $personnel->id) }}">View</a>
+                                                        <a class="btn btn-primary"
+                                                            href="{{ route('personnel.edit', $personnel->id) }}">Edit</a>
                                                         <form
                                                             onsubmit="return confirm('Are you sure you want to delete this case list?');"
-                                                            action=""
+                                                            action="{{ route('personnel.destroy', $personnel->id) }}"
                                                             method="POST" style="display: inline; margin-bottom: 0;">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                                            <button type="submit"
+                                                                class="btn btn-danger">Delete</button>
                                                         </form>
                                                     </div>
                                                 </td>
                                             </tr>
-                                        {{-- @endforeach --}}
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                        {{-- <div class="d-flex justify-content-center">
-                            {{ $personnels->onEachSide(1)->links() }}
-                        </div> --}}
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <script>   
-         $(document).ready(function () {
-    // Trigger the AJAX call on keyup
-    $('#searchInput').on('keyup', function () {
-        var keyword = $(this).val(); // Get the value from the input box
-
-        // Make an AJAX request
-        $.ajax({
-            url: '{{ route('caseList.search') }}', // Your Laravel route for search
-            method: 'GET',
-            data: { keyword: keyword },
-            success: function (response) {
-                // Update the table body with the search results
-                $('#caseListTableBody').html(response);
-
-                // Highlight the matched text (excluding buttons)
-                if (keyword.length > 0) {
-                    $('#caseListTableBody').find('td:not(:has(button, a))').each(function () {
-                        var content = $(this).text();
-                        var highlighted = content.replace(
-                            new RegExp(keyword, 'gi'),
-                            function (match) {
-                                return `<span class="highlight">${match}</span>`;
-                            }
-                        );
-                        $(this).html(highlighted);
-                    });
-                }
-
-                // Rebind event handlers for Edit and Delete buttons
-                rebindButtonHandlers();
-            },
-            error: function (xhr) {
-                console.error('Search failed: ', xhr);
+    
+    <script>
+        $(document).ready(function() {
+            console.log("Initializing DataTable...");
+    
+            // Check if the table exists before applying DataTable
+            if ($('#personnelTableBody').length) {
+                $('#personnelTableBody').DataTable({
+                    "processing": true, // Show processing indicator
+                    "serverSide": false, // Disable server-side processing
+                    "paging": true, // Enable pagination
+                    "searching": true, // Enable searching
+                    "ordering": true, // Enable column sorting
+                    "pageLength": 10, // Set the page length to 25
+                    "lengthMenu": [10, 25, 50, 100], // Options for the number of rows per page
+                    "order": [
+                        [0, 'asc']
+                    ], // Default sorting (Column 0 ascending)
+                    "dom": 'l<"toolbar">frtip', // Customize the layout
+                });
+                console.log("DataTable initialized successfully.");
+            } else {
+                console.error("Error: Table with ID 'departmentTable' not found.");
             }
         });
-    });
-
-    // Rebind Edit and Delete button event handlers
-    function rebindButtonHandlers() {
-        // Attach any specific logic for Edit/Delete buttons if necessary
-        console.log("Event handlers reattached.");
-    }
-});
     </script>
+
     @include('components.layouts.footer')

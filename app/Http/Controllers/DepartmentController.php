@@ -21,7 +21,7 @@ class DepartmentController extends Controller
             $query->where('deptName', $deptNames);
         }
 
-        $departments = $query->paginate(10);
+        $departments = $query->get();
 
         // Fetch distinct cabinet and sub-department names for filter dropdowns
         $deptNames = Department::distinct()->pluck('deptName');

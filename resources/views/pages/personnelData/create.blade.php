@@ -2,9 +2,7 @@
 @include('components.layouts.sidebar')
 
 <head>
-    {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script> --}}
-    <script src="{{ asset('public/vendor/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
-    <link rel="stylesheet" href="{{ asset('public/css/flatpickr.min.css') }}">
+
 
     <style>
         /* Style the date input field */
@@ -114,6 +112,13 @@
                                     <!-- အခြေခံအချက်အလက် -->
                                     <div class="tab-pane fade show active" id="tab1" role="tabpanel">
                                         <div class="mb-3">
+                                            <label class="form-label">ဓာတ်ပုံတင်ရန်</label>
+                                            <input type="file" name="profileImage" class="form-control"
+                                                id="imageInput">
+                                            <div id="imagePreview" class="mt-2"></div>
+                                        </div>
+
+                                        <div class="mb-3">
                                             <label class="form-label">ကိုယ်ပိုင်အမှတ်</label>
                                             <input type="text" name="personnelId" class="form-control">
                                         </div>
@@ -129,9 +134,7 @@
                                         {{-- Date Picker --}}
                                         <div class="form-group">
                                             <label for="exampleFormControlSelect1">အဆင့်ရရက်စွဲ</label>
-                                            <input name="getRankDate"
-                                                class="datepicker-default form-control form-control-lg"
-                                                id="datepicker" placeholder="Choice Date">
+                                            <input type="text" name="getRankDate" class="form-control">
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">လက်ရှိတာဝန်</label>
@@ -176,10 +179,8 @@
                                             <input type="text" name="education" class="form-control">
                                         </div>
                                         <div class="form-group">
-                                            <label for="exampleFormControlSelect1">မွေးသက္ကရာဇ်</label>
-                                            <input name="dateOfBirth"
-                                                class="datepicker-default form-control form-control-lg"
-                                                id="datepicker" placeholder="Choice Date">
+                                            <label for="exampleFormControlSelect1">မွေးသက္ကရာဇ်နှင့်ဇာတိ</label>
+                                            <input name="dateOfBirth" type="text" class="form-control">
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">အဘအမည် (လူမျိုး/ဘာသာ)</label>
@@ -632,14 +633,14 @@
                                                     class="btn btn-danger remove-traningInter-form">Remove</button>
                                             </div>
                                         </div>
-                                        
+
                                         <div class="my-4 text-success">
                                             <h4> ပြည်ပသင်တန်း တက်ရောက်မှု </h4>
                                         </div>
                                         <div id="formContainer7">
                                             <div class="form-group border p-3 mb-3 single-form form-instance">
                                                 <div class="row">
-                        
+
                                                     <div class="col-2">
                                                         <div class="mb-3">
                                                             <label class="form-label">စဉ်</label>
@@ -676,44 +677,42 @@
                                         </div>
 
                                         <div class="my-4 text-primary">
-                                            <h5>အထက်ဖော်ပြပါ ဖြည့်စွက်ရေးသွင်းထားသော အချက်အလက်များအား မှန်ကန်ပါကြောင်း တာဝန်ခံ လက်မှတ်ရေးထိုးပါသည်။</h5>
+                                            <h5>အထက်ဖော်ပြပါ ဖြည့်စွက်ရေးသွင်းထားသော အချက်အလက်များအား မှန်ကန်ပါကြောင်း
+                                                တာဝန်ခံ လက်မှတ်ရေးထိုးပါသည်။</h5>
                                         </div>
                                         <div class="form-group border p-3 mb-3 single-form form-instance">
                                             <div class="row">
                                                 <div class="col-6">
                                                     <div class="form-group p-3">
-                                                        <label for="Sign">လက်မှတ်</label>                                         
+                                                        <label for="Sign">လက်မှတ်</label>
                                                         <div>
                                                             <!-- Canvas for displaying or capturing signature -->
                                                             <canvas id="sign" class="border w-100"></canvas>
                                                             <button type="button" class="btn btn-danger btn-sm mt-2"
                                                                 onclick="clearCanvas('sign')">Clear</button>
                                                         </div>
-                        
+
                                                         <!-- Hidden input to store the signature data -->
-                                                        <input type="hidden" name="personnelSign" id="personnelSign">
+                                                        <input type="hidden" name="personnelSign"
+                                                            id="personnelSign">
                                                     </div>
                                                 </div>
                                                 <div class="col-6">
                                                     <div class="form-group date-container">
                                                         <label for="servedPeriod">ရက်စွဲ</label>
-                                                        <input type="date" name="signDate"
-                                                            class="form-control">
+                                                        <input type="date" name="signDate" class="form-control">
                                                     </div>
                                                     <div class="mb-3">
                                                         <label class="form-label">ကိုယ်ပိုင်အမှတ်</label>
-                                                        <input type="text" name="signID"
-                                                            class="form-control">
+                                                        <input type="text" name="signID" class="form-control">
                                                     </div>
                                                     <div class="mb-3">
                                                         <label class="form-label">အဆင့်</label>
-                                                        <input type="text" name="signRank"
-                                                            class="form-control">
+                                                        <input type="text" name="signRank" class="form-control">
                                                     </div>
                                                     <div class="mb-3">
                                                         <label class="form-label">အမည်</label>
-                                                        <input type="text" name="signName"
-                                                            class="form-control">
+                                                        <input type="text" name="signName" class="form-control">
                                                     </div>
                                                 </div>
                                             </div>
@@ -737,8 +736,6 @@
 </div>
 
 
-
-<script src="{{ asset('public/js/flatpickr.js') }}"></script>
 <script>
     //Signature section
     function clearCanvas(canvasId) {
@@ -757,7 +754,7 @@
 
     document.querySelector('form').addEventListener('submit', function() {
         saveSignature('sign'); // Save before submitting
-});
+    });
 
 
 
@@ -769,23 +766,39 @@
                 let tabInstance = new bootstrap.Tab(tabButton);
                 tabInstance.show();
 
-                // Ensure the tab content is shown
-                let tabContentId = tabButton.getAttribute("data-bs-target"); // Get the content ID
-                document.querySelectorAll(".tab-pane").forEach(tab => tab.classList.remove("show",
-                    "active")); // Hide all tabs
-                document.querySelector(tabContentId).classList.add("show", "active"); // Show the selected tab
+                // Ensure the correct tab content is active
+                let tabContentId = tabButton.getAttribute("data-bs-target");
+                document.querySelectorAll(".tab-pane").forEach(tab => tab.classList.remove("show", "active"));
+                document.querySelector(tabContentId).classList.add("show", "active");
             }
         }
 
+        // Handle Next button click
         document.querySelectorAll(".next-tab").forEach(button => {
             button.addEventListener("click", function() {
                 showTab(this.getAttribute("data-next"));
             });
         });
 
+        // Handle Previous button click
         document.querySelectorAll(".prev-tab").forEach(button => {
             button.addEventListener("click", function() {
                 showTab(this.getAttribute("data-prev"));
+            });
+        });
+
+        // ✅ Allow clicking on tab headings AND updating tab content correctly
+        document.querySelectorAll(".nav-link").forEach(tab => {
+            tab.addEventListener("click", function(event) {
+                let targetTab = event.target; // The clicked tab button
+                let tabInstance = new bootstrap.Tab(targetTab);
+                tabInstance.show();
+
+                // Ensure the correct tab content is active
+                let tabContentId = targetTab.getAttribute("data-bs-target");
+                document.querySelectorAll(".tab-pane").forEach(tab => tab.classList.remove(
+                    "show", "active"));
+                document.querySelector(tabContentId).classList.add("show", "active");
             });
         });
     });
@@ -833,8 +846,10 @@
         handleDynamicForms('formContainer3', 'addMadelForm', 'remove-madel-form'); // CaseForm Data
         handleDynamicForms('formContainer4', 'addCrimeForm', 'remove-crime-form'); // MadelForm Data
         handleDynamicForms('formContainer5', 'servedRecordForm', 'remove-served-form'); // servedRecordForm Data
-        handleDynamicForms('formContainer6', 'traningFormInter', 'remove-traningInter-form'); // traningFormInter Data
-        handleDynamicForms('formContainer7', 'traningFormOuter', 'remove-traningOuter-form'); // traningFormOuter Data
+        handleDynamicForms('formContainer6', 'traningFormInter',
+        'remove-traningInter-form'); // traningFormInter Data
+        handleDynamicForms('formContainer7', 'traningFormOuter',
+        'remove-traningOuter-form'); // traningFormOuter Data
     });
 
     //Calculate Age in child section
@@ -898,77 +913,32 @@
         this.type = "text"; // Change back to text input
         this.value = selectedDate; // Keep the date and allow additional text
     });
-    //Open File Manger
 
-    function openFileManager(event, inputId) {
-        // Prevent the page from refreshing when the button is clicked
-        event.preventDefault();
 
-        // Open the file manager
-        var fmWindow = window.open(
-            '{{ route('elfinder.popup') }}/' + inputId,
-            'FileManager',
-            'width=800,height=600'
-        );
-    }
+    //Preview Selected Image
+    document.getElementById('imageInput').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        const imagePreview = document.getElementById('imagePreview');
 
-    window.processSelectedFiles = function(filePaths, inputId) {
-        const targetInput = document.getElementById(inputId);
-        if (targetInput) {
-            const existingValue = targetInput.value;
-            const combinedFiles = [...new Set([...existingValue.split(',').map(f => f.trim()), ...filePaths])];
+        // Ensure that the user selected a file
+        if (file) {
+            const reader = new FileReader();
 
-            // Convert the file paths to JSON string
-            const jsonValue = JSON.stringify(combinedFiles);
+            reader.onload = function(e) {
+                // Check if it's an image by ensuring the file type starts with 'image/'
+                if (file.type.startsWith('image/')) {
+                    imagePreview.innerHTML =
+                        `<img src="${e.target.result}" alt="Selected Image" class="img-fluid" style="width: 150px; height: 150px;">`;
+                } else {
+                    imagePreview.innerHTML = '<p>Please select a valid image file.</p>';
+                }
+            };
 
-            // Set the value to the input field
-            targetInput.value = jsonValue;
+            reader.readAsDataURL(file); // Read the file as a data URL
         } else {
-            console.error(`No input field found with ID: ${inputId}`);
-        }
-    };
-
-
-    window.addEventListener('focus', () => {
-        const selectedFiles = JSON.parse(localStorage.getItem('selectedFiles'));
-        if (selectedFiles && selectedFiles.length > 0) {
-            const inputId = 'inputId'; // Replace with your actual input ID
-            const targetInput = document.getElementById(inputId);
-
-            if (targetInput) {
-                // Combine existing values with newly selected files
-                const existingValue = targetInput.value;
-                const updatedValue = [...new Set([...
-                    selectedFiles
-                ])].join(', ');
-                targetInput.value = updatedValue;
-            } else {
-                console.error(`No input field found with ID: ${inputId}`);
-            }
-
-            // Clear the selected files from localStorage
-            localStorage.removeItem('selectedFiles');
+            imagePreview.innerHTML = ''; // Clear preview if no file is selected
         }
     });
 </script>
-{{-- <script>
-    const fileManagerUrl = "{{ url('public/filemanager/tinyfilemanager.php') }}";
-    function openFileManager() {
-        window.open(
-            fileManagerUrl, // Update with correct path to your file manager
-            'FileManager',
-            'width=800,height=600'
-        );
-    }
-
-    function selectFiles(files) {
-        // Handle the selected file paths, e.g., by inserting them into the input field
-        document.getElementById('fileInput').value = files.join(', ');
-    }
-</script> --}}
-
-<!--**********************************
-            Content body end
-        ***********************************-->
 
 @include('components.layouts.footer')

@@ -41,6 +41,7 @@ class PersonnelData extends Model
         'height', //အရပ်အမြင့်
         'dateOfEnlistment', //တပ်ဝင်ရက်စွဲ
         'maritalStatus', //အိမ်ထောင်ရှိ/ မရှိ
+        'profileImage', //ဓာတ်ပုံ
 
          //ဇနီးဆိုင်ရာအချက်အလက်
          'wifeName', //အမည်
