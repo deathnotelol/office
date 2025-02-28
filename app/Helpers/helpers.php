@@ -10,6 +10,16 @@ if (!function_exists('engToMyanmarDate')) {
     }
 }
 
+if(!function_exists('convertMonthEngToMyanmar')) {
+    function convertMonthEngToMyanmar($month)
+    {
+        $eng_month = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        $mm_month = ['ဇန်နဝါရီ','ဖေဖော်ဝါရီ','မတ်','ဧပြီ','မေ','ဇွန်','ဇူလိုင်','သြဂုတ်','စက်တင်ဘာ','အောက်တိုဘာ','နိုဝင်ဘာ','ဒီဇင်ဘာ',];
+        return str_replace($eng_month, $mm_month, $month);
+    }
+}
+
+
 if (!function_exists('engToMyanmarNumber')) {
     function engToMyanmarNumber($string)
     {
@@ -17,6 +27,24 @@ if (!function_exists('engToMyanmarNumber')) {
         $mm_numbers = ['၀', '၁', '၂', '၃', '၄', '၅', '၆', '၇', '၈', '၉'];
 
         return str_replace($eng_numbers, $mm_numbers, $string);
+    }
+}
+
+if (!function_exists('formatMyanmarDate')) {
+    function formatMyanmarDate($date)
+    {
+        // Convert the date string to an array (assuming format "YYYY-MM-DD")
+        $dateParts = explode('-', $date);
+        if (count($dateParts) !== 3) {
+            return $date; // Return original if invalid format
+        }
+
+        $year = engToMyanmarNumber($dateParts[0]); // Convert year
+        $month = convertMonthEngToMyanmar(date('F', strtotime($date))); // Convert month
+        $day = engToMyanmarNumber($dateParts[2]); // Convert day to Myanmar numbers
+
+        // Add spaces before and after "ရက်"
+        return $year . " ခုနှစ်၊ " . $month . "လ  " . $day . "   ရက်";
     }
 }
 
@@ -70,3 +98,5 @@ if (!function_exists('formatDateToMyanmarNumbers')) {
         return str_replace($extractedDate, $formattedDateMyanmar, $date);
     }
 }
+
+

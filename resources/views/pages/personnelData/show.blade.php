@@ -38,7 +38,7 @@
         {{-- အခြေခံအချက်အလက် --}}
         <div class="card">
             <div class="card-body text-dark text-wrap text-lg" style="background-color: #b6ddf1">
-                <div class="mb-3 text-end">
+                <div class="mb-3 text-center">
                     <img src="{{ asset('public/' . $personnels->profileImage) }}" alt="ProfileImage" width="144px"
                         height="168px">
                 </div>
@@ -261,6 +261,10 @@
                 <h4 class="font-weight-bold my-3">ဇနီးဆိုင်ရာအချက်အလက်</h4>
             </div>
             <div class="card-body text-dark text-wrap text-lg" style="background-color: #b6ddf1">
+                <div class="mb-3 text-center">
+                    <img src="{{ asset('public/' . $personnels->wifeimage) }}" alt="ProfileImage" width="144px"
+                        height="168px">
+                </div>
                 @if ($personnels->wifeName)
                     <div class="row">
                         <div class="col-5">
@@ -354,11 +358,11 @@
                     <table class="table table-bordered table-hover text-wrap text-center">
                         <thead class="thead-primary">
                             <tr>
-                                <th>စဉ်</th>
-                                <th>အမည်</th>
-                                <th>တော်စပ်ပုံ</th>
-                                <th>နေရပ်လိပ်စာ</th>
-                                <th>မှတ်ချက်</th>
+                                <th style="font-size: 18px">စဉ်</th>
+                                <th style="font-size: 18px">အမည်</th>
+                                <th style="font-size: 18px">တော်စပ်ပုံ</th>
+                                <th style="font-size: 18px">နေရပ်လိပ်စာ</th>
+                                <th style="font-size: 18px">မှတ်ချက်</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -387,11 +391,11 @@
                     <table class="table table-bordered table-hover text-wrap text-center">
                         <thead class="thead-primary">
                             <tr>
-                                <th>စဉ်</th>
-                                <th>အမည်</th>
-                                <th>မွေးသက္ကရာဇ်/အသက်</th>
-                                <th>အလုပ်အကိုင်</th>
-                                <th>နေရပ်လိပ်စာ</th>
+                                <th style="font-size: 18px">စဉ်</th>
+                                <th style="font-size: 18px">အမည်</th>
+                                <th style="font-size: 18px">မွေးသက္ကရာဇ်/အသက်</th>
+                                <th style="font-size: 18px">အလုပ်အကိုင်</th>
+                                <th style="font-size: 18px">နေရပ်လိပ်စာ</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -422,11 +426,11 @@
                         @foreach ($personnels->medals as $medal)
                             <div class="row mb-2"> <!-- Add margin-bottom for spacing -->
                                 <div class="col-2"> <!-- Adjust width -->
-                                    <p style="font-size: 1.2rem"><strong>{{ $medal->medalNo }}</strong></p>
+                                    <p style="font-size: 1.2rem">{{ $medal->medalNo }}</p>
                                 </div>
                                 <div class="col-10"> <!-- Adjust width -->
                                     @if ($medal->medalName)
-                                        <p style="font-size: 1.2rem"><strong>{{ $medal->medalName }}</strong></p>
+                                        <p style="font-size: 1.2rem">{{ $medal->medalName }}</p>
                                     @else
                                         <p style="font-size: 1.2rem">မရှိပါ</p>
                                     @endif
@@ -435,19 +439,247 @@
                         @endforeach
                     </div>
                 </div>
+                <div class="welcome-text text-start">
+                    <h4 class="font-weight-bold my-3">ပြစ်မှု/ပြစ်ဒဏ်</h4>
+                </div>
+                <div class="row">
+                    <table class="table table-bordered table-hover text-wrap text-center">
+                        <thead class="thead-primary">
+                            <tr>
+                                <th style="font-size: 18px">စဉ်</th>
+                                <th style="font-size: 18px">ပြစ်မှု</th>
+                                <th style="font-size: 18px">ပြစ်ဒဏ်</th>
+                                <th style="font-size: 18px">ရက်စွဲ</th>
+                                <th style="font-size: 18px">မှတ်ချက်</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($personnels->crimes as $crime)
+                                <tr>
+                                    <td>{{ $crime->crimeNo }}</td>
+                                    <td>
+                                        @if ($crime->crimeName)
+                                            {{ $crime->crimeName }}
+                                        @else
+                                            မရှိပါ
+                                        @endif
+                                    </td>
+                                    <td>{{ $crime->punishment }} </td>
+                                    <td>{{ $crime->crimeDate }}</td>
+                                    <td>{{ $crime->crimeRemark }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
+        {{-- တာဝန်ထမ်းဆောင်မှုမှတ်တမ်း --}}
+        <div class="card">
+            <div class="welcome-text text-start">
+                <h4 class="font-weight-bold m-3">တာဝန်ထမ်းဆောင်မှုမှတ်တမ်း (ပြည်ထဲရေးဝန်ကြီးဌာန)</h4>
+            </div>
+            <div class="card-body text-dark text-wrap text-lg" style="background-color: #b6ddf1">
+                <div class="row">
+                    <table class="table table-bordered table-hover text-wrap text-center">
+                        <thead class="thead-primary">
+                            <tr>
+                                <th rowspan="2" class="text-center align-middle" style="font-size: 18px">စဉ်</th>
+                                <th rowspan="2" class="text-center align-middle" style="font-size: 18px">အဆင့်
+                                </th>
+                                <th rowspan="2" class="text-center align-middle" style="font-size: 18px">
+                                    တပ်ဖွဲ့/ဒေသ</th>
+                                <th colspan="2" class="text-center align-middle" style="font-size: 18px">ကာလ</th>
+                                <th rowspan="2" class="text-center align-middle" style="font-size: 18px">မှတ်ချက်
+                                </th>
+                            </tr>
+                            <tr>
+                                <th class="text-center align-middle" style="font-size: 18px">မှ</th>
+                                <th class="text-center align-middle" style="font-size: 18px">ထိ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($personnels->services as $service)
+                                <tr>
+                                    <td>{{ $service->servedNo }}</td>
+                                    <td>
+                                        @if ($service->servedRank)
+                                            {{ $service->servedRank }}
+                                        @else
+                                            မရှိပါ
+                                        @endif
+                                    </td>
+                                    <td>{{ $service->servedPlace }} </td>
+                                    <td>{{ formatDateToMyanmarNumbers($service->servedPeriodFrom) }}</td>
+                                    <td>{{ formatDateToMyanmarNumbers($service->servedPeriodTo) }}</td>
+                                    <td>{{ $service->servedRemark }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
 
+        {{-- ပြည်တွင်းသင်တန်းတက်ရောက်မှု --}}
+        <div class="card">
+            <div class="welcome-text text-start">
+                <h4 class="font-weight-bold m-3">ပြည်တွင်းသင်တန်းတက်ရောက်မှု</h4>
+            </div>
+            <div class="card-body text-dark text-wrap text-lg" style="background-color: #b6ddf1">
+                <div class="row">
+                    <table class="table table-bordered table-hover text-wrap text-center">
+                        <thead class="thead-primary">
+                            <tr>
+                                <th rowspan="2" class="text-center align-middle" style="font-size: 18px">စဉ်</th>
+                                <th rowspan="2" class="text-center align-middle" style="font-size: 18px">
+                                    တက်ရောက်ခဲ့သည့်သင်တန်း</th>
+                                <th colspan="2" class="text-center align-middle" style="font-size: 18px">ကာလ</th>
+                            </tr>
+                            <tr>
+                                <th class="text-center align-middle" style="font-size: 18px">မှ</th>
+                                <th class="text-center align-middle" style="font-size: 18px">ထိ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($personnels->trainingInter as $trainingInter)
+                                <tr>
+                                    <td>{{ $trainingInter->traningInterNo }}</td>
+                                    <td>
+                                        @if ($trainingInter->traningInterName)
+                                            {{ $trainingInter->traningInterName }}
+                                        @else
+                                            မရှိပါ
+                                        @endif
+                                    </td>
+                                    <td>{{ formatDateToMyanmarNumbers($trainingInter->traningInterPeriodFrom) }}</td>
+                                    <td>{{ formatDateToMyanmarNumbers($trainingInter->traningInterPeriodTo) }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
 
+        {{-- ပြည်ပသင်တန်းတက်ရောက်မှု --}}
+        <div class="card">
+            <div class="welcome-text text-start">
+                <h4 class="font-weight-bold m-3">ပြည်ပသင်တန်းတက်ရောက်မှု</h4>
+            </div>
+            <div class="card-body text-dark text-wrap text-lg" style="background-color: #b6ddf1">
+                <div class="row">
+                    <table class="table table-bordered table-hover text-wrap text-center">
+                        <thead class="thead-primary">
+                            <tr>
+                                <th rowspan="2" class="text-center align-middle" style="font-size: 18px">စဉ်</th>
+                                <th rowspan="2" class="text-center align-middle" style="font-size: 18px">
+                                    တက်ရောက်ခဲ့သည့်သင်တန်း</th>
+                                <th colspan="2" class="text-center align-middle" style="font-size: 18px">ကာလ</th>
+                            </tr>
+                            <tr>
+                                <th class="text-center align-middle" style="font-size: 18px">မှ</th>
+                                <th class="text-center align-middle" style="font-size: 18px">ထိ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if ($personnels->trainingOuter->isNotEmpty())
+                                @foreach ($personnels->trainingOuter as $trainingOut)
+                                    <tr>
+                                        <td>{{ $trainingOut->traningOuterNo }}</td>
+                                        <td>
+                                            @if (!empty($trainingOut->traningOuterName))
+                                                {{ $trainingOut->traningOuterName }}
+                                            @else
+                                                မရှိပါ
+                                            @endif
+                                        </td>
+                                        <td>{{ $trainingOut->traningOuterPeriodFrom }}</td>
+                                        <td>{{ $trainingOut->traningOuterPeriodTo }}</td>
+                                    </tr>
+                                @endforeach
+                            @else
+                                <tr>
+                                    <td colspan="4" class="text-center">မရှိပါ</td>
+                                </tr>
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="welcome-text text-start" style="background-color: #b6c7d0">
+                <h5 class="font-weight-bold m-3">အထက်ဖော်ပြပါ ဖြည့်စွက်ရေးသွင်းထားသော အချက်အလက်များအား မှန်ကန်ပါကြောင်း တာဝန်ခံလက်မှတ်ရေးထိုးပါသည်။</h5>
+            </div>
+            <div class="card-body text-dark text-wrap text-lg">
+                <div class="row">
+                    <div class="col-6 ms-auto">
+                        <div class="row">
+                            <div style="margin-left: 100px">
+                                <img src="{{ asset('public/storage/' . $personnels->personnelSign) }}" alt="sign" width="200px" height="200px">
+                            </div>
+                        </div>
+                        <div class="text-start">
+                            <div class="row">
+                                <div class="col-6">
+                                    <p>ရက်စွဲ</p>
+                                </div>
+                                <div class="col-6">
+                                    <p style="font-size: 1.2rem"><strong>{{ formatDateToMyanmarNumbers($personnels->signDate) }}</strong></p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <p>ကိုယ်ပိုင်အမှတ်</p>
+                                </div>
+                                <div class="col-6">
+                                    <p style="font-size: 1.2rem"><strong>{{ $personnels->personnelId }}</strong></p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <p>အဆင့်/ရာထူး</p>
+                                </div>
+                                <div class="col-6">
+                                    <p style="font-size: 1.2rem"><strong>{{ $personnels->personnelRank }}</strong></p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <p>အမည်</p>
+                                </div>
+                                <div class="col-6">
+                                    <p style="font-size: 1.2rem"><strong>{{ $personnels->personnelName }}</strong></p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <p>တပ်/ဌာန</p>
+                                </div>
+                                <div class="col-6">
+                                    <p style="font-size: 1.2rem"><strong>{{ $personnels->currentDept }}</strong></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div>
+                            <p style="font-size: 1.2rem">ရက်စွဲ၊ {{ formatMyanmarDate($personnels->signDate) }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-
-
+        
         <div class="d-flex justify-content-between mb-5">
             <a href="{{ route('personnel.index') }}" class="btn btn-primary btn-lg">Back to List</a>
             <button onclick="exportAndPrint()" class="btn btn-success btn-lg">ExportAndPrint</button>
         </div>
     </div>
+</div>
 </div>
 
 <script>

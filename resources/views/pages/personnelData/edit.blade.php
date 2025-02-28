@@ -375,6 +375,16 @@
 
                                     <div class="tab-pane fade" id="tab3" role="tabpanel">
                                         <div class="row">
+                                            <div class="mb-3">
+                                                <label class="form-label">ဓာတ်ပုံတင်ရန်</label>
+                                                <input type="file" name="wifeimage" class="form-control"
+                                                    id="wifeImageInput"
+                                                    value="{{ old('wifeimage', $personnels->wifeimage) }}">
+                                                <div id="wifeImagePreview" class="mt-2">
+                                                    <img src="{{ asset('public/' . $personnels->wifeimage) }}"
+                                                        alt="" width="150px" height="150px">
+                                                </div>
+                                            </div>
                                             <div class="col-6">
                                                 <div class="mb-3">
                                                     <label class="form-label">အမည်</label>
@@ -1429,6 +1439,31 @@
     document.getElementById('imageInput').addEventListener('change', function(event) {
         const file = event.target.files[0];
         const imagePreview = document.getElementById('imagePreview');
+
+        // Ensure that the user selected a file
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                // Check if it's an image by ensuring the file type starts with 'image/'
+                if (file.type.startsWith('image/')) {
+                    imagePreview.innerHTML =
+                        `<img src="${e.target.result}" alt="Selected Image" class="img-fluid" style="width: 150px; height: 150px;">`;
+                } else {
+                    imagePreview.innerHTML = '<p>Please select a valid image file.</p>';
+                }
+            };
+
+            reader.readAsDataURL(file); // Read the file as a data URL
+        } else {
+            imagePreview.innerHTML = ''; // Clear preview if no file is selected
+        }
+    });
+
+    //Preview wife Selected Image
+    document.getElementById('wifeImageInput').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        const imagePreview = document.getElementById('wifeImagePreview');
 
         // Ensure that the user selected a file
         if (file) {

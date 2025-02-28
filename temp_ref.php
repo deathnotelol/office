@@ -102,6 +102,7 @@ class CaseList extends Model
         'caseAndPunishment[]', //ပြစ်မှု/ပြစ်ဒဏ်(ရှိလျှင်)
 
         //ဇနီးဆိုင်ရာအချက်အလက်
+        'wifeimage', //ဓာတ်ပုံ
         'wifeName', //အမည်
         'wifeNationAndReligion', //လူမျိုး/ဘာသာ
         'wifeDobAndPlace', //မွေးသက္ကရာဇ်နှင့် ဇာတိ
@@ -164,7 +165,22 @@ class CaseList extends Model
          'signDate', //ရက်စွဲ
          'signID', //ကိုယ်ပိုင်အမှတ်
          'signRank',//အဆင့်
-         'signName' //အမည်
+         'signName', //အမည်
+
+         //Month
+         
+         'ဇန်နဝါရီ',
+         'ဖေဖော်ဝါရီ',
+         'မတ်',
+         'ဧ့ပြီ',
+         'မေ',
+         'ဇွန်',
+         'ဇူလိုင်',
+         'သြ့ဂုတ်',
+         'စက်တင်ဘာ',
+         'အောက်တိုဘာ',
+         'နိုဝင်ဘာ',
+         'ဒီဇင်ဘာ',
 
     ];
 }

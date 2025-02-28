@@ -44,6 +44,7 @@ class PersonnelData extends Model
         'profileImage', //ဓာတ်ပုံ
 
          //ဇနီးဆိုင်ရာအချက်အလက်
+         'wifeimage', //ဓာတ်ပုံ
          'wifeName', //အမည်
          'wifeNationAndReligion', //လူမျိုး/ဘာသာ
          'wifeDobAndPlace', //မွေးသက္ကရာဇ်နှင့် ဇာတိ

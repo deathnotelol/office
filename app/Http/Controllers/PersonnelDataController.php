@@ -82,24 +82,32 @@ class PersonnelDataController extends Controller
 
 
             // Handle profile image upload
-            if ($request->hasFile('profileImage')) {
-
-                $image = $request->file('profileImage');
-
-                // Create the folder if it does not exist
-                $folderPath = storage_path('app/public/profile_image');
-                if (!file_exists($folderPath)) {
-                    mkdir($folderPath, 0777, true); // Create the folder with appropriate permissions
+            if ($request->hasFile('profileImage')) { 
+                foreach ($request->file('profileImage') as $image) {
+                    $imageName = time() . '_' . $image->getClientOriginalName();
+                    $folderPath = storage_path('app/public/profile_image');
+            
+                    if (!file_exists($folderPath)) {
+                        mkdir($folderPath, 0777, true);
+                    }
+            
+                    $image->move($folderPath, $imageName);
+                    $data['profileImages'][] = 'storage/profile_image/' . $imageName;
                 }
-
-                // Generate a unique name for the image
-                $imageName = time() . '_' . $image->getClientOriginalName();
-
-                // Store the image in the public/profile_image directory
-                $image->move($folderPath, $imageName);
-
-                // Store the image path in the data array
-                $data['profileImage'] = 'storage/profile_image/' . $imageName;
+            }
+            
+            if ($request->hasFile('wifeimage')) { 
+                foreach ($request->file('wifeimage') as $image) {
+                    $imageName = time() . '_' . $image->getClientOriginalName();
+                    $folderPath = storage_path('app/public/wife_image');
+            
+                    if (!file_exists($folderPath)) {
+                        mkdir($folderPath, 0777, true);
+                    }
+            
+                    $image->move($folderPath, $imageName);
+                    $data['wifeImages'][] = 'storage/wife_image/' . $imageName;
+                }
             }
 
             // Create personnel record
@@ -172,6 +180,32 @@ class PersonnelDataController extends Controller
                 // Delete the old image if it exists
                 if ($personnel->profileImage && file_exists(storage_path('app/public/' . str_replace('storage/', '', $personnel->profileImage)))) {
                     unlink(storage_path('app/public/' . str_replace('storage/', '', $personnel->profileImage)));
+                }
+            }
+
+            //Handle wife image 
+            if ($request->hasFile('wifeimage')) {
+
+                $image = $request->file('wifeimage');
+
+                // Create the folder if it does not exist
+                $folderPath = storage_path('app/public/wife_image');
+                if (!file_exists($folderPath)) {
+                    mkdir($folderPath, 0777, true);
+                }
+
+                // Generate a unique name for the image
+                $imageName = time() . '_' . $image->getClientOriginalName();
+
+                // Store the image in the public/profile_image directory
+                $image->move($folderPath, $imageName);
+
+                // Store the new image path in the data array
+                $data['wifeimage'] = 'storage/wife_image/' . $imageName;
+
+                // Delete the old image if it exists
+                if ($personnel->wifeimage && file_exists(storage_path('app/public/' . str_replace('storage/', '', $personnel->wifeimage)))) {
+                    unlink(storage_path('app/public/' . str_replace('storage/', '', $personnel->wifeimage)));
                 }
             }
 
