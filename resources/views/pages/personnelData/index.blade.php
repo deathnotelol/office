@@ -1,7 +1,7 @@
     @include('components.layouts.header')
     @include('components.layouts.sidebar')
 
-    
+
     <div class="content-body">
         <div class="container-fluid">
             <div class="row page-titles mx-0">
@@ -80,7 +80,8 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered table-hover text-wrap text-center" id="personnelTableBody" >
+                                <table class="table table-bordered table-hover text-wrap text-center"
+                                    id="personnelTableBody">
                                     <thead class="thead-primary">
                                         <tr>
                                             <th>စဉ်</th>
@@ -97,7 +98,8 @@
                                         @foreach ($personnels as $key => $personnel)
                                             <tr>
                                                 <td>{{ $key + 1 }}</td>
-                                                <td><img src="{{ asset('public/' . $personnel->profileImage) }}" alt="profileImage" width="100px" height="100px"></td>
+                                                <td><img src="{{ asset('public/' . $personnel->profileImage) }}"
+                                                        alt="profileImage" width="100px" height="100px"></td>
                                                 <td>{{ $personnel->personnelId }}</td>
                                                 <td>{{ $personnel->personnelRank }}</td>
                                                 <td>{{ $personnel->personnelName }}</td>
@@ -110,14 +112,15 @@
                                                             href="{{ route('personnel.show', $personnel->id) }}">View</a>
                                                         <a class="btn btn-primary"
                                                             href="{{ route('personnel.edit', $personnel->id) }}">Edit</a>
+
                                                         <form
-                                                            onsubmit="return confirm('Are you sure you want to delete this case list?');"
+                                                            @if (auth()->user()->hasRole('super-admin')) onsubmit="return confirm('Are you sure you want to delete this case list?');"
                                                             action="{{ route('personnel.destroy', $personnel->id) }}"
                                                             method="POST" style="display: inline; margin-bottom: 0;">
                                                             @csrf
                                                             @method('DELETE')
                                                             <button type="submit"
-                                                                class="btn btn-danger">Delete</button>
+                                                                class="btn btn-danger">Delete</button> @endif
                                                         </form>
                                                     </div>
                                                 </td>
@@ -132,11 +135,11 @@
             </div>
         </div>
     </div>
-    
+
     <script>
         $(document).ready(function() {
             console.log("Initializing DataTable...");
-    
+
             // Check if the table exists before applying DataTable
             if ($('#personnelTableBody').length) {
                 $('#personnelTableBody').DataTable({

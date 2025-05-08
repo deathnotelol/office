@@ -182,7 +182,20 @@ class CaseList extends Model
          'နိုဝင်ဘာ',
          'ဒီဇင်ဘာ',
 
+
+         //စက်ပစ္စည်းများစာရင်း
+         'inventoryName',
+         'instock',
+         'good',
+         'fair',
+         'bad',
+         'total',
+         'remark'
+
+
     ];
+
+
 }
 
 

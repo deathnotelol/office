@@ -175,8 +175,33 @@
                             <div class="stat-widget-two card-body">
                                 <div class="stat-content">
                                     <div class="stat-text">ဌာနများ</div>
-                                    <div class="stat-digit"><a href="{{ route('department.index') }}">{{ $departments }}</a></div>
-                                    <div><h4>Departments</h4></div>
+                                    <div class="stat-digit"><a
+                                            href="{{ route('department.index') }}">{{ $departments }}</a></div>
+                                    <div>
+                                        <h4>Departments</h4>
+                                    </div>
+                                </div>
+                                {{-- <div class="progress">
+                                    <div class="progress-bar progress-bar-danger w-65" role="progressbar"
+                                        aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div> --}}
+                            </div>
+                        </div>
+                    </a>
+                    <!-- /# card -->
+                </div>
+
+                <div class="col-lg-3 col-sm-6">
+                    <a href="{{ route('department.index') }}">
+                        <div class="card" style="background-color: rgb(164, 214, 246)">
+                            <div class="stat-widget-two card-body">
+                                <div class="stat-content">
+                                    <div class="stat-text">ကိုယ်ရေးအချက်အလက်များ</div>
+                                    <div class="stat-digit"><a
+                                            href="{{ route('personnel.index') }}">{{ $personnelData }}</a></div>
+                                    <div>
+                                        <h4>PersonnelData</h4>
+                                    </div>
                                 </div>
                                 {{-- <div class="progress">
                                     <div class="progress-bar progress-bar-danger w-65" role="progressbar"

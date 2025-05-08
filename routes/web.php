@@ -1,7 +1,6 @@
 <?php
 
 
-use App\Http\Controllers\PersonnelDataController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
@@ -10,11 +9,14 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\CaseFileController;
 use App\Http\Controllers\CaseListController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DutyReportController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\InventoryCatController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\PersonnelDataController;
 
 
 // Protected routes (Require authentication)
@@ -176,6 +178,32 @@ Route::middleware(['auth'])->group(function () {
 
 
     Route::delete('/personnel/{id}', [PersonnelDataController::class, 'destroy'])->name('personnel.destroy');
+});
+
+//Inventory
+Route::middleware(['auth'])->group(function () {
+    Route::get('/inventory', [InventoryController::class, 'index'])->name('inventory.index');
+
+    Route::get('/inventory/create', [InventoryController::class, 'create'])->name('inventory.create');
+    Route::post('/inventory/store', [InventoryController::class, 'store'])->name('inventory.store');
+    Route::get('/inventory/{id}/edit', [InventoryController::class, 'edit'])->name('inventory.edit');
+    Route::match(['PUT', 'POST'], '/inventory/{id}/update', [InventoryController::class, 'update'])->name('inventory.update');
+
+
+    Route::delete('/inventory/{id}', [InventoryController::class, 'destroy'])->name('inventory.destroy');
+});
+
+//InventoryCat
+Route::middleware(['auth'])->group(function () {
+    Route::get('/inventoryCat', [InventoryCatController::class, 'index'])->name('inventoryCat.index');
+
+    Route::get('/inventoryCat/create', [InventoryCatController::class, 'create'])->name('inventoryCat.create');
+    Route::post('/inventoryCat/store', [InventoryCatController::class, 'store'])->name('inventoryCat.store');
+    Route::get('/inventoryCat/{id}/edit', [InventoryCatController::class, 'edit'])->name('inventoryCat.edit');
+    Route::match(['PUT', 'POST'], '/inventoryCat/{id}/update', [InventoryCatController::class, 'update'])->name('inventoryCat.update');
+
+
+    Route::delete('/inventoryCat/{id}', [InventoryCatController::class, 'destroy'])->name('inventoryCat.destroy');
 });
 
 

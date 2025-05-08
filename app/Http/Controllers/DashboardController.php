@@ -6,6 +6,7 @@ use App\Models\CaseFile;
 use App\Models\CaseList;
 use App\Models\Department;
 use App\Models\DutyReport;
+use App\Models\PersonnelData;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -16,11 +17,12 @@ class DashboardController extends Controller
         $caseFiles = CaseFile::count();
         $departments = Department::count();
         $dutyReports = DutyReport::count();
+        $personnelData = PersonnelData::count();
     
         // Example: Assuming total reports is 100 (can be dynamically calculated based on your use case)
         // $totalReports = 100;
         // $progress = $totalReports > 0 ? ($dutyReports / $totalReports) * 100 : 0;
     
-        return view('pages.dashboard', compact('caseLists', 'caseFiles', 'departments', 'dutyReports'));
+        return view('pages.dashboard', compact('caseLists', 'caseFiles', 'departments', 'dutyReports', 'personnelData'));
     }
 }
